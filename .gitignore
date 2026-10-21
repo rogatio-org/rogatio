@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+# Node
+node_modules/
+.next/
+out/
+# Env and secrets
+.env
+.env.*
+!.env.example
+# Data never committed (INE images, personal data)
+data/private/
+*.sqlite3
+# OS / editors
+.DS_Store
+.idea/
+.vscode/
