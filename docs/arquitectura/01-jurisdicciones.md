@@ -65,10 +65,10 @@ Notas:
 
 - Una sección tiene entre 100 y 3,000 electores (LGIPE Art. 147). Es la unidad más pequeña con significado electoral.
 - Cada sección está completa dentro de una alcaldía, un distrito federal y un distrito local.
-- En Cuauhtémoc, las secciones pertenecen a los distritos locales 9 y 12 (por verificar contra la cartografía del IECM).
+- En Cuauhtémoc, las secciones pertenecen a los distritos locales 9 (187 secciones) y 12 (202 secciones). Los dos están todo dentro de Cuauhtémoc.
 - El archivo de datos abiertos asigna las secciones de Cuauhtémoc a los distritos federales 8 y 12. Estos valores usan los distritos de antes de 2023.
 - La distritación vigente es el Acuerdo INE/CG875/2022. Rige las elecciones de 2024, 2027 y 2030. Cuauhtémoc se divide en dos distritos federales: el 12 (300 secciones, todo dentro de Cuauhtémoc) y el 2 (89 secciones de la franja norte, compartido con Gustavo A. Madero). Ver [03-representantes.md](03-representantes.md).
-- La lista de secciones y su distrito federal está en [data/ine/secciones-cuauhtemoc.csv](../../data/ine/secciones-cuauhtemoc.csv). Sale del Catálogo de información geoelectoral del INE (archivo EDMSLM, [cartografia.ine.mx](https://cartografia.ine.mx/), corte de enero de 2026). Ese catálogo no trae el distrito local.
+- La lista de secciones con su distrito federal y su distrito local está en [data/ine/secciones-cuauhtemoc.csv](../../data/ine/secciones-cuauhtemoc.csv). Sale del Catálogo de Secciones con Distritos Electorales Locales del INE (CSDEL, [cartografia.ine.mx](https://cartografia.ine.mx/), corte de enero de 2026). El distrito federal coincide con el Catálogo de información geoelectoral (EDMSLM).
 - Los números de secciones vienen del catálogo geoelectoral del INE con fecha de corte de enero de 2026.
 
 ### La credencial del INE da la llave de unión
@@ -176,4 +176,4 @@ El archivo del IECM 2022 lista, para cada UT, las secciones completas y las parc
 - [INE, Distritación electoral](https://www.ine.mx/voto-y-elecciones/distritacion-electoral/)
 - [Expansión: el INE justifica la distritación de la CDMX (de 24 a 22 distritos)](https://politica.expansion.mx/cdmx/2021/09/20/el-ine-justifica-el-plan-de-redistritacion-en-la-cdmx-tras-criticas-de-sheinbaum)
 - [IECM](https://www.iecm.mx/) y [Congreso de la Ciudad de México](https://www.congresocdmx.gob.mx/)
-- Los números de Cuauhtémoc (389 secciones, 64 UT, distritos locales 9 y 12) vienen de nuestro propio análisis de los dos archivos de datos.cdmx.gob.mx citados arriba.
+- Los números de secciones y distritos de Cuauhtémoc vienen de los catálogos del INE (corte de enero de 2026). Las 64 UT vienen de nuestro análisis de los archivos de datos.cdmx.gob.mx citados arriba.
