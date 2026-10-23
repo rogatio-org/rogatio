@@ -1,3 +1,5 @@
+Lee también [CLAUDE.md](CLAUDE.md): stack, comandos, estructura y convenciones del proyecto.
+
 <!-- BEGIN:nextjs-agent-rules -->
 
 ## This is NOT the Next.js you know
