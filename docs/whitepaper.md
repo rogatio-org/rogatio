@@ -165,7 +165,6 @@ Ver también [Transparencia](transparencia.md).
 
 - ¿Quién firma la petición del Art. 8 como peticionario legal: el autor, un representante legal o cada firmante?
 - ¿El correo electrónico a una dirección institucional es una entrega válida del Art. 8, o presentamos en papel?
-- ¿Qué umbral usa la demo de Cuauhtémoc (propuesta: 50)?
 - ¿Basta un consentimiento con un clic para datos sensibles bajo la LFPDPPP?
 - ¿Quién modera las peticiones y revisa la competencia dudosa durante el piloto?
 

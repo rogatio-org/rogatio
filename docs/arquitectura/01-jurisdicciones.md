@@ -163,10 +163,8 @@ El archivo del IECM 2022 lista, para cada UT, las secciones completas y las parc
 ## Preguntas abiertas
 
 - ¿Los distritos federales 12 y 2 cubren toda Cuauhtémoc después de la distritación de 2023? Cargar el archivo vigente del INE antes de la demo.
-- ¿Mostramos una UT como destino de petición en la demo, o solo la alcaldía y los distritos?
 - ¿Aceptamos modelos anteriores de credencial, o exigimos el modelo vigente?
 - ¿Quién se encarga de la actualización anual de los archivos del INE y del IECM cuando cambian los límites?
-- ¿Guardamos la geometría con PostGIS desde el primer día, o solo los códigos para la demo?
 
 ## Fuentes
 
