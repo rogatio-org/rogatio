@@ -68,7 +68,7 @@ Notas:
 - En Cuauhtémoc, las secciones pertenecen a los distritos locales 9 y 12 (por verificar contra la cartografía del IECM).
 - El archivo de datos abiertos asigna las secciones de Cuauhtémoc a los distritos federales 8 y 12. Estos valores usan los distritos de antes de 2023.
 - La distritación vigente es el Acuerdo INE/CG875/2022. Rige las elecciones de 2024, 2027 y 2030. Cuauhtémoc se divide en dos distritos federales: el 12 (300 secciones, todo dentro de Cuauhtémoc) y el 2 (89 secciones de la franja norte, compartido con Gustavo A. Madero). Ver [03-representantes.md](03-representantes.md).
-- La lista de secciones y su distrito federal está en [data/ine/secciones-cuauhtemoc.csv](../../data/ine/secciones-cuauhtemoc.csv). Sale del Catálogo de información geoelectoral del INE (archivo EDMSLM). Ese catálogo no trae el distrito local.
+- La lista de secciones y su distrito federal está en [data/ine/secciones-cuauhtemoc.csv](../../data/ine/secciones-cuauhtemoc.csv). Sale del Catálogo de información geoelectoral del INE (archivo EDMSLM, [cartografia.ine.mx](https://cartografia.ine.mx/), descargado el 2026-10-23). Ese catálogo no trae el distrito local.
 - Los números de secciones vienen de un archivo con fecha de corte 2020-12-31. Los números vigentes están (por verificar).
 
 ### La credencial del INE da la llave de unión
@@ -157,7 +157,7 @@ Una persona puede firmar una petición cuando el nodo destino es igual a un nodo
 |---|---|---|---|
 | Entidad, alcaldía, AGEB, manzana | [INEGI Marco Geoestadístico](https://www.inegi.org.mx/temas/mg/) | SHP | [Términos de Libre Uso de la Información del INEGI](https://www.inegi.org.mx/inegi/terminos.html): se permiten el uso comercial y la redistribución con atribución |
 | Alcaldía, distritos locales, secciones (CDMX) | [Marco Geográfico Electoral, datos.cdmx.gob.mx](https://datos.cdmx.gob.mx/dataset/marco-geografico-electoral) | KML en RAR | CC-BY-4.0 |
-| Distritos federales, secciones, manzanas del INE | [INE Cartografía Electoral](https://cartografia.ine.mx/) | SHP (por verificar) | (por verificar) |
+| Distritos federales, secciones, manzanas del INE | [INE Cartografía Electoral](https://cartografia.ine.mx/), Catálogo de información geoelectoral (EDMSLM), descargado el 2026-10-23 | TXT separado por `\|`, una fila por manzana. Mapas en SHP (por verificar) | (por verificar) |
 | Unidades territoriales (colonias del IECM) con sus secciones | [Colonias del IECM 2022, datos.cdmx.gob.mx](https://datos.cdmx.gob.mx/dataset/colonias-del-iecm-2022) | SHP, diccionario XLSX | CC-BY-4.0 |
 
 El archivo del IECM 2022 lista, para cada UT, las secciones completas y las parciales. Esto da `secciones_unidades` sin unión espacial.
