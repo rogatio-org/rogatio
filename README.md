@@ -10,7 +10,7 @@ Cuando una petición alcanza su umbral, Rogatio redacta una petición del Art. 8
 
 ## Documentación
 
-Empieza por [docs/README.md](docs/README.md): el whitepaper, el documento de transparencia y las notas de arquitectura (jurisdicciones, enrutamiento, representantes, autenticación).
+Si llegas a la mesa de la demo, empieza por [docs/bienvenida.md](docs/bienvenida.md). Para todo lo demás, empieza por [docs/README.md](docs/README.md): el whitepaper, el documento de transparencia y las notas de arquitectura (jurisdicciones, enrutamiento, representantes, autenticación).
 
 ## Licencia
 
