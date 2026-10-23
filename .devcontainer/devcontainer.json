@@ -1,0 +1,29 @@
+{
+  "name": "Rogatio",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "app",
+  "runServices": ["app", "db"],
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+  "shutdownAction": "stopCompose",
+  "features": {
+    "ghcr.io/anthropics/devcontainer-features/claude-code:1.0": {}
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "anthropic.claude-code",
+        "dbaeumer.vscode-eslint",
+        "bradlc.vscode-tailwindcss"
+      ]
+    }
+  },
+  "forwardPorts": [3000],
+  "portsAttributes": {
+    "3000": {
+      "label": "Rogatio",
+      "onAutoForward": "openPreview"
+    }
+  },
+  "postCreateCommand": "npm ci && npm run db:migrate && npm run db:seed",
+  "remoteUser": "node"
+}

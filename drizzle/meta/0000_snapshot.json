@@ -1,0 +1,614 @@
+{
+  "id": "83722fab-0777-4d94-a094-33cbfc06d98c",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.envios": {
+      "name": "envios",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "bigserial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "peticion_id": {
+          "name": "peticion_id",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "estado": {
+          "name": "estado",
+          "type": "estado_envio",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'pendiente'"
+        },
+        "hash_pdf": {
+          "name": "hash_pdf",
+          "type": "bytea",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "hash_acuse": {
+          "name": "hash_acuse",
+          "type": "bytea",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "creado_en": {
+          "name": "creado_en",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "enviado_en": {
+          "name": "enviado_en",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "envios_peticion_id_peticiones_id_fk": {
+          "name": "envios_peticion_id_peticiones_id_fk",
+          "tableFrom": "envios",
+          "tableTo": "peticiones",
+          "columnsFrom": [
+            "peticion_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.firmas": {
+      "name": "firmas",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "bigserial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "peticion_id": {
+          "name": "peticion_id",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "persona_id": {
+          "name": "persona_id",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "secuencia": {
+          "name": "secuencia",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "hoja": {
+          "name": "hoja",
+          "type": "bytea",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "creada_en": {
+          "name": "creada_en",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "firmas_peticion_id_peticiones_id_fk": {
+          "name": "firmas_peticion_id_peticiones_id_fk",
+          "tableFrom": "firmas",
+          "tableTo": "peticiones",
+          "columnsFrom": [
+            "peticion_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "firmas_persona_id_personas_id_fk": {
+          "name": "firmas_persona_id_personas_id_fk",
+          "tableFrom": "firmas",
+          "tableTo": "personas",
+          "columnsFrom": [
+            "persona_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "firmas_peticion_id_persona_id_unique": {
+          "name": "firmas_peticion_id_persona_id_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "peticion_id",
+            "persona_id"
+          ]
+        },
+        "firmas_peticion_id_secuencia_unique": {
+          "name": "firmas_peticion_id_secuencia_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "peticion_id",
+            "secuencia"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.jurisdicciones": {
+      "name": "jurisdicciones",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "bigserial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "nivel": {
+          "name": "nivel",
+          "type": "nivel_jurisdiccion",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "padre_id": {
+          "name": "padre_id",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "codigo": {
+          "name": "codigo",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "nombre": {
+          "name": "nombre",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "configuracion": {
+          "name": "configuracion",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'{}'::jsonb"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "jurisdicciones_padre_id_jurisdicciones_id_fk": {
+          "name": "jurisdicciones_padre_id_jurisdicciones_id_fk",
+          "tableFrom": "jurisdicciones",
+          "tableTo": "jurisdicciones",
+          "columnsFrom": [
+            "padre_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "jurisdicciones_nivel_codigo_unique": {
+          "name": "jurisdicciones_nivel_codigo_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "nivel",
+            "codigo"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.personas": {
+      "name": "personas",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "bigserial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "curp_hmac": {
+          "name": "curp_hmac",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "nombre_cifrado": {
+          "name": "nombre_cifrado",
+          "type": "bytea",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "curp_cifrada": {
+          "name": "curp_cifrada",
+          "type": "bytea",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "entidad": {
+          "name": "entidad",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "seccion": {
+          "name": "seccion",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "verificado_en": {
+          "name": "verificado_en",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "personas_curp_hmac_unique": {
+          "name": "personas_curp_hmac_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "curp_hmac"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.peticiones": {
+      "name": "peticiones",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "bigserial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "slug": {
+          "name": "slug",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "titulo": {
+          "name": "titulo",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "texto": {
+          "name": "texto",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "categoria": {
+          "name": "categoria",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "jurisdiccion_id": {
+          "name": "jurisdiccion_id",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "umbral": {
+          "name": "umbral",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "estado": {
+          "name": "estado",
+          "type": "estado_peticion",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'abierta'"
+        },
+        "creada_en": {
+          "name": "creada_en",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "peticiones_jurisdiccion_id_jurisdicciones_id_fk": {
+          "name": "peticiones_jurisdiccion_id_jurisdicciones_id_fk",
+          "tableFrom": "peticiones",
+          "tableTo": "jurisdicciones",
+          "columnsFrom": [
+            "jurisdiccion_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "peticiones_slug_unique": {
+          "name": "peticiones_slug_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "slug"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.raices": {
+      "name": "raices",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "bigserial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "peticion_id": {
+          "name": "peticion_id",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "tamano": {
+          "name": "tamano",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "raiz": {
+          "name": "raiz",
+          "type": "bytea",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "creada_en": {
+          "name": "creada_en",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "raices_peticion_id_peticiones_id_fk": {
+          "name": "raices_peticion_id_peticiones_id_fk",
+          "tableFrom": "raices",
+          "tableTo": "peticiones",
+          "columnsFrom": [
+            "peticion_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "raices_peticion_id_tamano_unique": {
+          "name": "raices_peticion_id_tamano_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "peticion_id",
+            "tamano"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.secciones_electorales": {
+      "name": "secciones_electorales",
+      "schema": "",
+      "columns": {
+        "entidad": {
+          "name": "entidad",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "seccion": {
+          "name": "seccion",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "alcaldia_id": {
+          "name": "alcaldia_id",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "distrito_federal_id": {
+          "name": "distrito_federal_id",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "distrito_local_id": {
+          "name": "distrito_local_id",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "distritacion": {
+          "name": "distritacion",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "secciones_electorales_alcaldia_id_jurisdicciones_id_fk": {
+          "name": "secciones_electorales_alcaldia_id_jurisdicciones_id_fk",
+          "tableFrom": "secciones_electorales",
+          "tableTo": "jurisdicciones",
+          "columnsFrom": [
+            "alcaldia_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "secciones_electorales_distrito_federal_id_jurisdicciones_id_fk": {
+          "name": "secciones_electorales_distrito_federal_id_jurisdicciones_id_fk",
+          "tableFrom": "secciones_electorales",
+          "tableTo": "jurisdicciones",
+          "columnsFrom": [
+            "distrito_federal_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "secciones_electorales_distrito_local_id_jurisdicciones_id_fk": {
+          "name": "secciones_electorales_distrito_local_id_jurisdicciones_id_fk",
+          "tableFrom": "secciones_electorales",
+          "tableTo": "jurisdicciones",
+          "columnsFrom": [
+            "distrito_local_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "secciones_electorales_entidad_seccion_pk": {
+          "name": "secciones_electorales_entidad_seccion_pk",
+          "columns": [
+            "entidad",
+            "seccion"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {
+    "public.estado_envio": {
+      "name": "estado_envio",
+      "schema": "public",
+      "values": [
+        "pendiente",
+        "generado",
+        "enviado_simulado",
+        "fallido"
+      ]
+    },
+    "public.estado_peticion": {
+      "name": "estado_peticion",
+      "schema": "public",
+      "values": [
+        "borrador",
+        "abierta",
+        "umbral_alcanzado",
+        "enviada",
+        "cerrada"
+      ]
+    },
+    "public.nivel_jurisdiccion": {
+      "name": "nivel_jurisdiccion",
+      "schema": "public",
+      "values": [
+        "federacion",
+        "entidad",
+        "alcaldia",
+        "unidad_territorial",
+        "circunscripcion",
+        "distrito_federal",
+        "distrito_local"
+      ]
+    }
+  },
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}
