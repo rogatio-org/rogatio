@@ -113,6 +113,19 @@ No instales nada. Usa Codespaces en el navegador.
 
 Necesitas permiso de escritura en el repo. Pídelo en la mesa con tu usuario de GitHub.
 
+### Claude Code en Codespaces
+
+Claude Code ya viene instalado. Para entrar con tu suscripción:
+
+1. En la terminal, escribe `claude` y elige entrar con tu suscripción.
+2. Se abre una pestaña del navegador. **Ciérrala.** Esa ruta falla en Codespaces.
+3. La terminal muestra una URL. Selecciónala: se copia sola.
+4. Abre una pestaña nueva, pega la URL e inicia sesión.
+5. La página te da un código. Cópialo.
+6. Vuelve a la terminal y pega el código con clic derecho.
+
+Si el navegador pide permiso para usar el portapapeles, acéptalo. Si lo negaste, actívalo en el candado de la barra de direcciones.
+
 Los issues con la etiqueta `despues` quedan registrados, pero hoy no se trabajan.
 
 **La demo usa solo datos ficticios.** No captures tu credencial, tu CURP ni datos reales de nadie.

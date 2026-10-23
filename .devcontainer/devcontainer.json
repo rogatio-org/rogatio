@@ -14,7 +14,11 @@
         "anthropic.claude-code",
         "dbaeumer.vscode-eslint",
         "bradlc.vscode-tailwindcss"
-      ]
+      ],
+      "settings": {
+        "terminal.integrated.copyOnSelection": true,
+        "terminal.integrated.rightClickBehavior": "copyPaste"
+      }
     }
   },
   "forwardPorts": [3000],
