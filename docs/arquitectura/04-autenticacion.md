@@ -39,7 +39,9 @@ Restricciones del fundador:
 | G, H | Diciembre de 2019 | Sí |
 | I, J | Junio de 2026 | Sí |
 
-Las letras impares son credenciales nacionales. Las letras pares son credenciales emitidas en el extranjero (por verificar para I/J). Cada credencial tiene vigencia de 10 años. Manda la vigencia impresa.
+Las letras impares son credenciales nacionales. Las letras pares son credenciales emitidas en el extranjero. Cada credencial tiene vigencia de 10 años. Manda la vigencia impresa.
+
+Rogatio acepta solo credenciales vigentes: modelos E a J con la vigencia impresa sin vencer. Rechaza los modelos A a D y las credenciales vencidas.
 
 ### 3.2 Campos
 
@@ -189,7 +191,6 @@ Reglas:
 
 ## Preguntas abiertas
 
-- ¿Aceptamos credenciales I/J en los datos de prueba de la demo, o solo G/H?
 - ¿Basta un consentimiento por clic para datos sensibles, o necesitamos una firma electrónica?
 - ¿Quién pregunta a la ADIP sobre el acceso a Llave CDMX, y cuándo?
 - ¿Firmamos un convenio de verificación con el INE una vez que exista Rogatio A.C.?

@@ -58,16 +58,18 @@ Notas:
 | Circunscripción plurinominal | La CDMX está en la 4.ª de 5; la 4.ª tiene su sede en la CDMX | CPEUM Art. 53; INE |
 | Distrito electoral federal | 22 desde la distritación 2021-2023 (antes: 24) | INE |
 | Distrito electoral local (del Congreso CDMX) | 33 | INE |
-| Sección electoral | 5,535 en CDMX; 389 en Cuauhtémoc (números 4523 a 4911) | LGIPE Art. 147 |
+| Sección electoral | 5,589 en CDMX; 389 en Cuauhtémoc (números 4523 a 4911) | LGIPE Art. 147 |
 | Manzana (del INE) | no se cuenta aquí | Cartografía del INE |
 
 Notas:
 
 - Una sección tiene entre 100 y 3,000 electores (LGIPE Art. 147). Es la unidad más pequeña con significado electoral.
 - Cada sección está completa dentro de una alcaldía, un distrito federal y un distrito local.
-- En Cuauhtémoc, las secciones pertenecen a los distritos locales 9 y 12 (por verificar contra la cartografía del IECM).
-- El archivo de datos abiertos asigna las secciones de Cuauhtémoc a los distritos federales 8 y 12. Estos valores usan los distritos de antes de 2023. Los distritos federales vigentes son 12 y 2 (ver [03-representantes.md](03-representantes.md)) (por verificar contra el archivo vigente del INE).
-- Los números de secciones vienen de un archivo con fecha de corte 2020-12-31. Los números vigentes están (por verificar).
+- En Cuauhtémoc, las secciones pertenecen a los distritos locales 9 (187 secciones) y 12 (202 secciones). Los dos están todo dentro de Cuauhtémoc.
+- El archivo de datos abiertos asigna las secciones de Cuauhtémoc a los distritos federales 8 y 12. Estos valores usan los distritos de antes de 2023.
+- La distritación vigente es el Acuerdo INE/CG875/2022. Rige las elecciones de 2024, 2027 y 2030. Cuauhtémoc se divide en dos distritos federales: el 12 (300 secciones, todo dentro de Cuauhtémoc) y el 2 (89 secciones de la franja norte, compartido con Gustavo A. Madero). Ver [03-representantes.md](03-representantes.md).
+- La lista de secciones con su distrito federal y su distrito local está en [data/ine/secciones-cuauhtemoc.csv](../../data/ine/secciones-cuauhtemoc.csv). Sale del Catálogo de Secciones con Distritos Electorales Locales del INE (CSDEL, [cartografia.ine.mx](https://cartografia.ine.mx/), corte de enero de 2026). El distrito federal coincide con el Catálogo de información geoelectoral (EDMSLM).
+- Los números de secciones vienen del catálogo geoelectoral del INE con fecha de corte de enero de 2026.
 
 ### La credencial del INE da la llave de unión
 
@@ -140,7 +142,7 @@ Cada nodo tiene un padre **dentro de su propio árbol**:
 2. **Una sola tabla mantiene un solo destino de petición.** `peticiones.jurisdiccion_id` puede apuntar a cualquier nodo de cualquiera de los dos árboles.
 3. **Los árboles no se anidan, así que un nodo no necesita un segundo padre.** La sección es la única unidad que pertenece a los dos árboles. La tabla puente expresa este hecho de forma directa.
 4. **Las aristas tipadas agregan costo y no dan ganancia.** Una tabla general de aristas necesita consultas recursivas sobre tipos de arista mezclados. La tabla puente necesita una sola búsqueda indexada.
-5. **La sección tiene otra forma.** Tiene 5,535 filas, una llave natural compuesta y ninguna configuración de petición. Es una tabla de consulta, no una jurisdicción.
+5. **La sección tiene otra forma.** Tiene 5,589 filas, una llave natural compuesta y ninguna configuración de petición. Es una tabla de consulta, no una jurisdicción.
 6. **AGEB y manzana quedan fuera del modelo.** No tienen autoridad ni representante. Se cargan después solo si un mapa las necesita.
 
 La tabla `representantes` ([03-representantes.md](03-representantes.md)) y la clave `enrutamiento` en `jurisdicciones.configuracion` ([02-enrutamiento.md](02-enrutamiento.md)) hacen referencia a estos nodos.
@@ -155,18 +157,14 @@ Una persona puede firmar una petición cuando el nodo destino es igual a un nodo
 |---|---|---|---|
 | Entidad, alcaldía, AGEB, manzana | [INEGI Marco Geoestadístico](https://www.inegi.org.mx/temas/mg/) | SHP | [Términos de Libre Uso de la Información del INEGI](https://www.inegi.org.mx/inegi/terminos.html): se permiten el uso comercial y la redistribución con atribución |
 | Alcaldía, distritos locales, secciones (CDMX) | [Marco Geográfico Electoral, datos.cdmx.gob.mx](https://datos.cdmx.gob.mx/dataset/marco-geografico-electoral) | KML en RAR | CC-BY-4.0 |
-| Distritos federales, secciones, manzanas del INE | [INE Cartografía Electoral](https://cartografia.ine.mx/) | SHP (por verificar) | (por verificar) |
+| Distritos federales, secciones, manzanas del INE | [INE Cartografía Electoral](https://cartografia.ine.mx/), Catálogo de información geoelectoral (EDMSLM), corte de enero de 2026 | TXT separado por `\|`, una fila por manzana. Mapas en SHP (por verificar) | (por verificar) |
 | Unidades territoriales (colonias del IECM) con sus secciones | [Colonias del IECM 2022, datos.cdmx.gob.mx](https://datos.cdmx.gob.mx/dataset/colonias-del-iecm-2022) | SHP, diccionario XLSX | CC-BY-4.0 |
 
 El archivo del IECM 2022 lista, para cada UT, las secciones completas y las parciales. Esto da `secciones_unidades` sin unión espacial.
 
 ## Preguntas abiertas
 
-- ¿Los distritos federales 12 y 2 cubren toda Cuauhtémoc después de la distritación de 2023? Cargar el archivo vigente del INE antes de la demo.
-- ¿Mostramos una UT como destino de petición en la demo, o solo la alcaldía y los distritos?
-- ¿Aceptamos modelos anteriores de credencial, o exigimos el modelo vigente?
 - ¿Quién se encarga de la actualización anual de los archivos del INE y del IECM cuando cambian los límites?
-- ¿Guardamos la geometría con PostGIS desde el primer día, o solo los códigos para la demo?
 
 ## Fuentes
 
@@ -178,4 +176,4 @@ El archivo del IECM 2022 lista, para cada UT, las secciones completas y las parc
 - [INE, Distritación electoral](https://www.ine.mx/voto-y-elecciones/distritacion-electoral/)
 - [Expansión: el INE justifica la distritación de la CDMX (de 24 a 22 distritos)](https://politica.expansion.mx/cdmx/2021/09/20/el-ine-justifica-el-plan-de-redistritacion-en-la-cdmx-tras-criticas-de-sheinbaum)
 - [IECM](https://www.iecm.mx/) y [Congreso de la Ciudad de México](https://www.congresocdmx.gob.mx/)
-- Los números de Cuauhtémoc (389 secciones, 64 UT, distritos locales 9 y 12) vienen de nuestro propio análisis de los dos archivos de datos.cdmx.gob.mx citados arriba.
+- Los números de secciones y distritos de Cuauhtémoc vienen de los catálogos del INE (corte de enero de 2026). Las 64 UT vienen de nuestro análisis de los archivos de datos.cdmx.gob.mx citados arriba.

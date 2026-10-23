@@ -12,5 +12,6 @@ Al alcanzar su umbral, Rogatio envía una petición del Art. 8 a la autoridad co
 - [03 Representantes](arquitectura/03-representantes.md): qué representantes reciben copia y la tabla `representantes`.
 - [04 Autenticación](arquitectura/04-autenticacion.md): verificación de la credencial del INE, una persona una firma, reglas de privacidad.
 - [05 Stack](arquitectura/05-stack.md): Next.js con TypeScript en Vercel, Neon y Codespaces.
+- [Recortes de la demo](recortes-demo.md): lo que se simplificó solo para la demo y cómo debe crecer.
 
 Licencia: [AGPL-3.0](https://www.gnu.org/licenses/agpl-3.0.html). Sitio: [rogatio.org](https://rogatio.org).

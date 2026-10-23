@@ -31,7 +31,7 @@ Estado: decisión. Fecha: 2026-10-23.
 
 ## Cambios en otros documentos
 
-- El esquema inicial no incluye las columnas `geometria` de [01-jurisdicciones.md](01-jurisdicciones.md). Responde 01-jurisdicciones.md:169.
+- El esquema inicial no incluye las columnas `geometria` de [01-jurisdicciones.md](01-jurisdicciones.md). Ver [Recortes de la demo](../recortes-demo.md).
 - `enrutar()` de [02-enrutamiento.md](02-enrutamiento.md), secc. 6.3, pasa a TypeScript.
 
 ## Por verificar
