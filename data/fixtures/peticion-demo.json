@@ -1,0 +1,32 @@
+{
+  "_aviso": "Datos ficticios para maquetar la demo. Ninguna petición se envía. La semilla usa este mismo archivo. La mesa reemplaza la petición por el problema real.",
+  "peticion": {
+    "id": "peticion-demo",
+    "titulo": "Reparar el alumbrado público de la colonia Ejemplo Centro",
+    "texto": "Las personas firmantes, vecinas de la alcaldía Cuauhtémoc, solicitamos con fundamento en el Art. 8 de la Constitución que la alcaldía repare las luminarias apagadas de la colonia Ejemplo Centro y publique un calendario de mantenimiento.",
+    "categoria": "alumbrado",
+    "jurisdiccion": {
+      "nivel": "alcaldia",
+      "codigo": "09-015",
+      "nombre": "Cuauhtémoc"
+    },
+    "autoridad": "Alcaldía Cuauhtémoc",
+    "ubicacion": "Colonia Ejemplo Centro (ficticia)",
+    "creada_en": "2026-10-24T10:00:00-06:00"
+  },
+  "conteo": {
+    "firmas": 49,
+    "umbral": 50
+  },
+  "raiz": {
+    "hash": "3f9a1c0e5b7d2a4f6e8c1b3d5f7a9c0e2b4d6f8a1c3e5b7d9f0a2c4e6b8d1f3a",
+    "tamano_arbol": 49,
+    "publicada_en": "2026-10-25T20:00:00-06:00"
+  },
+  "envio": {
+    "estado": "pendiente",
+    "simulado": true,
+    "enviado_en": null,
+    "acuse_hash": null
+  }
+}

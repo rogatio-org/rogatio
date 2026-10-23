@@ -1,0 +1,34 @@
+# Entorno de desarrollo para Codespaces: app (Node 24) + Postgres.
+services:
+  app:
+    image: mcr.microsoft.com/devcontainers/typescript-node:24-bookworm
+    volumes:
+      - ../..:/workspaces:cached
+    command: sleep infinity
+    environment:
+      DATABASE_URL: postgres://rogatio:rogatio@db:5432/rogatio
+      # Valor falso solo para desarrollo. Nunca usar en producción.
+      ROGATIO_LLAVE_HMAC: dev-falsa-no-usar-en-produccion-0000000000000000
+      ROGATIO_LLAVE_CIFRADO: "0000000000000000000000000000000000000000000000000000000000000000"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: postgres:18
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: rogatio
+      POSTGRES_PASSWORD: rogatio
+      POSTGRES_DB: rogatio
+    # Postgres 18 guarda los datos en /var/lib/postgresql/18/docker.
+    volumes:
+      - datos-postgres:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U rogatio -d rogatio"]
+      interval: 2s
+      timeout: 5s
+      retries: 30
+
+volumes:
+  datos-postgres:
