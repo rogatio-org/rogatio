@@ -1,13 +1,14 @@
-# Rogatio documentation
+# Documentación de Rogatio
 
-Rogatio is an open-source platform for verified citizen petitions in Mexico.
-Each signer proves their identity with the INE voter credential and gets a public, verifiable receipt.
-At its threshold, Rogatio sends an Art. 8 petition to the competent authority and copies the signers' representatives.
+Rogatio es una plataforma de código abierto de peticiones ciudadanas verificadas para México.
+Cada firmante acredita su identidad con la credencial para votar del INE y recibe un comprobante público y verificable.
+Al alcanzar su umbral, Rogatio envía una petición del Art. 8 a la autoridad competente y copia a los representantes de los firmantes.
 
-- [Whitepaper](whitepaper.md): problem, design, trust model, privacy, roadmap and governance.
-- [01 Jurisdictions](architecture/01-jurisdictions.md): territorial units of CDMX and the `jurisdictions` data model.
-- [02 Routing](architecture/02-routing.md): how Rogatio selects the competent authority for each category.
-- [03 Representatives](architecture/03-representatives.md): which representatives get a copy, and the `representatives` table.
-- [04 Authentication](architecture/04-authentication.md): INE credential checks, one person one signature, privacy rules.
+- [Whitepaper](whitepaper.md): problema, diseño, modelo de confianza, privacidad, hoja de ruta y gobernanza.
+- [Transparencia](transparencia.md): qué puede verificar cualquiera y cómo se impide que un partido o una persona influya en la plataforma.
+- [01 Jurisdicciones](arquitectura/01-jurisdicciones.md): unidades territoriales de la CDMX y el modelo de datos `jurisdicciones`.
+- [02 Enrutamiento](arquitectura/02-enrutamiento.md): cómo elige Rogatio la autoridad competente para cada categoría.
+- [03 Representantes](arquitectura/03-representantes.md): qué representantes reciben copia y la tabla `representantes`.
+- [04 Autenticación](arquitectura/04-autenticacion.md): verificación de la credencial del INE, una persona una firma, reglas de privacidad.
 
-License: [AGPL-3.0](https://www.gnu.org/licenses/agpl-3.0.html). Site: [rogatio.org](https://rogatio.org).
+Licencia: [AGPL-3.0](https://www.gnu.org/licenses/agpl-3.0.html). Sitio: [rogatio.org](https://rogatio.org).

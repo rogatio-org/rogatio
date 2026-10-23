@@ -1,17 +1,17 @@
 # Rogatio
 
-Verified citizen petitions for Mexico. Site: [rogatio.org](https://rogatio.org).
+Peticiones ciudadanas verificadas para México. Sitio: [rogatio.org](https://rogatio.org).
 
-Each signer proves their identity with the INE voter credential and gets a public, verifiable receipt.
-When a petition reaches its threshold, Rogatio writes an Art. 8 petition, sends it to the competent authority and copies the signers' representatives.
+Cada firmante acredita su identidad con la credencial para votar del INE y recibe un comprobante público y verificable.
+Cuando una petición alcanza su umbral, Rogatio redacta una petición del Art. 8, la envía a la autoridad competente y copia a los representantes de los firmantes.
 
-- Product scope: all of Ciudad de México (CDMX).
-- Demo scope: the *alcaldía* Cuauhtémoc (Claude Impact Lab, Cámara de Diputados, 2026-10-26).
+- Alcance del producto: toda la Ciudad de México (CDMX).
+- Alcance de la demo: la alcaldía Cuauhtémoc (Claude Impact Lab, Cámara de Diputados, 2026-10-26).
 
-## Documentation
+## Documentación
 
-Start with [docs/README.md](docs/README.md): the whitepaper and the architecture notes (jurisdictions, routing, representatives, authentication).
+Empieza por [docs/README.md](docs/README.md): el whitepaper, el documento de transparencia y las notas de arquitectura (jurisdicciones, enrutamiento, representantes, autenticación).
 
-## License
+## Licencia
 
 [AGPL-3.0](LICENSE).
