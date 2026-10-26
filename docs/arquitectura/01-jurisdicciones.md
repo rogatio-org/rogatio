@@ -69,6 +69,7 @@ Notas:
 - El archivo de datos abiertos asigna las secciones de Cuauhtémoc a los distritos federales 8 y 12. Estos valores usan los distritos de antes de 2023.
 - La distritación vigente es el Acuerdo INE/CG875/2022. Rige las elecciones de 2024, 2027 y 2030. Cuauhtémoc se divide en dos distritos federales: el 12 (300 secciones, todo dentro de Cuauhtémoc) y el 2 (89 secciones de la franja norte, compartido con Gustavo A. Madero). Ver [03-representantes.md](03-representantes.md).
 - La lista de secciones con su distrito federal y su distrito local está en [data/ine/secciones-cuauhtemoc.csv](../../data/ine/secciones-cuauhtemoc.csv). Sale del Catálogo de Secciones con Distritos Electorales Locales del INE (CSDEL, [cartografia.ine.mx](https://cartografia.ine.mx/), corte de enero de 2026). El distrito federal coincide con el Catálogo de información geoelectoral (EDMSLM).
+- Los polígonos de esas 389 secciones están en [data/ine/secciones-cuauhtemoc.geojson](../../data/ine/secciones-cuauhtemoc.geojson) (WGS 84, 217 KB). Salen del Marco Geográfico Seccional por entidad del INE (MGS_EF, Shapefile del 2025-02-18). Sus distritos coinciden con el CSV. Sirven para el mapa de firmas; la demo no los guarda en la base.
 - Los números de secciones vienen del catálogo geoelectoral del INE con fecha de corte de enero de 2026.
 
 ### La credencial del INE da la llave de unión
