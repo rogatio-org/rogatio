@@ -1,5 +1,5 @@
 // Semilla y reinicio de la demo (2026-10-26). Idempotente. Solo datos ficticios.
-// Carga las secciones electorales de Cuauhtémoc (data/ine) con sus distritos.
+// Carga las secciones electorales de Cuauhtémoc y unas de Benito Juárez (data/ine) con sus distritos.
 import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { and, eq, gt } from "drizzle-orm";
@@ -151,6 +151,15 @@ async function principal() {
 
   const seccionesCuauhtemoc = leerSecciones("data/ine/secciones-cuauhtemoc.csv");
   await cargarSecciones(seccionesCuauhtemoc, cuauhtemoc, cdmx, circunscripcion);
+
+  // Secciones de otra alcaldía para probar el rechazo de quien no vive en Cuauhtémoc.
+  const benitoJuarez = await jurisdiccion("alcaldia", "09-014", "Benito Juárez", cdmx);
+  await cargarSecciones(
+    leerSecciones("data/ine/secciones-otra-alcaldia.csv"),
+    benitoJuarez,
+    cdmx,
+    circunscripcion,
+  );
 
   let [peticion] = await db
     .select()
