@@ -13,15 +13,15 @@ Los tiempos son del video. Cada fila tiene el tiempo de su escena: no hay que de
 
 | Video | Pantalla | Qué decir |
 | --- | --- | --- |
-| 0:00 | Inicio, petición con 49 de 50 | «Velitis, iubeatis, Quirites?» En Roma, el magistrado preguntaba al pueblo. Rogatio la invierte: el pueblo pregunta y la autoridad responde. Es código abierto para la participación ciudadana. |
-| 0:11 | Firmas por distrito y mapa por sección | Sirve desde una calle hasta el nivel federal. Este ejemplo es de la Alcaldía Cuauhtémoc: vemos las firmas por distrito y por sección. |
-| 0:18 | Aviso de privacidad | Para firmar, acepta el aviso de privacidad. |
-| 0:21 | Credencial | Se lee su credencial del INE. Su sección dice que vive en Cuauhtémoc. |
+| 0:00 | Inicio, petición con 49 de 50 | «Velitis, iubeatis, Quirites?» En Roma, el magistrado preguntaba al pueblo. Rogatio lo invierte: el pueblo pregunta. |
+| 0:07 | Firmas por distrito | Y el Art. 8 de la Constitución obliga a la autoridad a responder por escrito. |
+| 0:13 | Mapa por sección, aviso de privacidad | Rogatio es código abierto para la participación ciudadana. Sirve desde una calle hasta el nivel federal. Este ejemplo es de la Alcaldía Cuauhtémoc. |
+| 0:21 | Credencial | Para firmar, se lee la credencial del INE. Su sección dice que vive en Cuauhtémoc. |
 | 0:29 | Confirmar | Confirma y firma. |
 | 0:32 | Comprobante 50 | Firma 50. Su comprobante no lleva su nombre ni su CURP. |
 | 0:37 | Verificar, válido | Cualquiera lo verifica en su navegador. Y la raíz del registro se ancla en Bitcoin con OpenTimestamps: nadie puede cambiar la fecha. |
 | 0:46 | Umbral alcanzado | 50 de 50: umbral alcanzado. |
-| 0:52 | Escrito del Art. 8 | Rogatio genera el escrito del Art. 8. La alcaldía debe responder por escrito. El pueblo pregunta. La autoridad responde. |
+| 0:52 | Escrito del Art. 8 | Rogatio genera el escrito del Art. 8 para la alcaldía. El pueblo pregunta. La autoridad responde. |
 
 ## Antes de presentar
 
