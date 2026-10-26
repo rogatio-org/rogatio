@@ -284,15 +284,11 @@ Las peticiones no son propaganda electoral. Un periodo electoral no suspende el 
 - Durante la veda, Rogatio no publica comunicados que mencionen partidos ni candidatos.
 - Rogatio no publica rankings de representantes por partido, ni de "quién responde más" agrupados por partido. Publica datos por cargo y por persona, iguales para todos.
 
-### 3.9 Fundadores, Insitia Labs y el lugar de la demo
+### 3.9 Fundadores y el lugar de la demo
 
 Las reglas aplican también a los fundadores. Ser fundador no da ningún permiso fuera de las reglas de este documento.
 
-El whitepaper define que Insitia Labs puede vender implementaciones del mismo motor abierto a otros clientes y que nunca controla la plataforma. **Propuesta:**
-
-- Rogatio publica la lista de contratos de Insitia Labs con autoridades, partidos o grupos parlamentarios.
-- Quien trabaje para Insitia Labs se excusa en peticiones que se dirijan a esos clientes.
-- Insitia Labs no tiene acceso a datos de firmantes de Rogatio A.C. Cada uno tiene su propia infraestructura y sus propias llaves.
+Propuesta: quien opere Rogatio declara en público sus contratos con autoridades, partidos o grupos parlamentarios, y se excusa en peticiones dirigidas a esas contrapartes. Ninguna organización externa tiene acceso a datos de firmantes.
 
 La demo se presenta en la Cámara de Diputados, en el Claude Impact Lab. Presentar en un recinto legislativo no crea una relación con la Cámara ni con ningún grupo parlamentario. Propuesta: todo apoyo en especie recibido para la demo (espacio, créditos, viajes) aparece en el primer informe de transparencia.
 
@@ -353,7 +349,7 @@ Ya definido en el whitepaper (secc. 8):
 
 - Una asociación civil, Rogatio A.C., opera la plataforma (por verificar: aún no constituida).
 - El gobierno es destinatario, nunca dueño.
-- Insitia Labs nunca controla la plataforma.
+- Ninguna empresa ni organización externa controla la plataforma.
 - Los criterios de moderación, los umbrales y la tabla de enrutamiento son archivos públicos. Un cambio es un pull request público con revisión.
 
 **Propuesta de órganos:**
@@ -483,7 +479,7 @@ Esta política vive en el repositorio. Un cambio sigue la misma regla que los cr
 | Cambio de umbral a conveniencia | Subir el umbral de una petición incómoda | Umbral fijo al publicar; cambios por pull request público | Umbral en la página | Este documento |
 | Captura por un financiador | Un donante condiciona su apoyo | Topes por fuente; convenios sin cláusulas sobre peticiones; publicación de convenios | Donantes, convenios, estados financieros | Whitepaper; este documento |
 | Captura por los fundadores | Un fundador usa la plataforma para su carrera política | Las reglas aplican a fundadores; incompatibilidades; salida antes de registrarse como aspirante | Declaraciones de intereses | Este documento |
-| Conflicto de Insitia Labs | Un cliente de Insitia pide trato especial | Lista pública de contratos con autoridades; excusa; infraestructura separada | Lista de contratos | Whitepaper; este documento |
+| Conflicto de interés de quien opera | Una contraparte con contratos pide trato especial | Declaración pública de contratos con autoridades; excusa; sin acceso externo a datos de firmantes | Declaración de contratos | Este documento |
 | Representante desactualizado | Copia a quien ya dejó el cargo | Actualización semanal; `obtenido_en` menor a 7 días antes de cada envío; `representantes_historial`; revisión manual de cambios de titular | `url_fuente`, `obtenido_en` | 03-representantes |
 | Solicitud de datos por una autoridad | Orden para entregar nombres de firmantes | Solo por escrito, fundada y motivada; revisión legal; dos personas; mínimo de datos; aviso al firmante si la ley lo permite | Informe semestral | Este documento |
 | Código distinto al publicado | Producción corre un cambio no revisado | Commit en el pie de página; pull requests públicos; auditoría de seguridad; meta de compilaciones reproducibles | Commit desplegado | Whitepaper; este documento |
