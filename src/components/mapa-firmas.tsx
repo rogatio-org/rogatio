@@ -51,9 +51,9 @@ async function ContenidoMapa({ id }: { id: string }) {
 export function MapaFirmas({ id }: { id: string }) {
   const tituloId = useId();
   return (
-    <section aria-labelledby={tituloId} className="space-y-4 rounded-lg border p-4">
+    <section aria-labelledby={tituloId} className="space-y-5 rounded-xl border bg-card p-5 sm:p-6">
       <div className="space-y-1">
-        <h2 id={tituloId} className="font-semibold">
+        <h2 id={tituloId} className="text-xl font-bold tracking-tight">
           Mapa de firmas por sección
         </h2>
         <p className="text-sm text-muted-foreground">
@@ -61,7 +61,7 @@ export function MapaFirmas({ id }: { id: string }) {
         </p>
       </div>
       <Suspense
-        fallback={<div className="h-80 animate-pulse rounded-md bg-muted sm:h-96" />}
+        fallback={<div className="h-80 animate-pulse rounded-lg bg-muted sm:h-96" />}
       >
         <ContenidoMapa id={id} />
       </Suspense>

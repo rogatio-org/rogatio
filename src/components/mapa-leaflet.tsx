@@ -20,6 +20,7 @@ export default function MapaLeaflet({ secciones }: { secciones: FirmasSeccion[] 
       scrollWheelZoom: false,
       center: [19.4285, -99.1475],
       zoom: 13,
+      zoomAnimation: false,
     });
     L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
@@ -63,7 +64,8 @@ export default function MapaLeaflet({ secciones }: { secciones: FirmasSeccion[] 
           if (firmasPorSeccion.has(f.properties.seccion)) conColor.addLayer(l);
         });
         const limites = conColor.getLayers().length ? conColor.getBounds() : capa.getBounds();
-        mapa.fitBounds(limites, { padding: [24, 24], maxZoom: 15 });
+        // Sin animación: si la página cambia a media animación, Leaflet falla con _leaflet_pos.
+        mapa.fitBounds(limites, { padding: [24, 24], maxZoom: 15, animate: false });
       })
       .catch(() => {});
 
@@ -78,7 +80,7 @@ export default function MapaLeaflet({ secciones }: { secciones: FirmasSeccion[] 
       ref={contenedor}
       role="img"
       aria-label="Mapa de las secciones electorales de Cuauhtémoc coloreadas por número de firmas"
-      className="isolate h-80 w-full rounded-md bg-muted sm:h-96"
+      className="isolate h-80 w-full overflow-hidden rounded-lg border bg-muted sm:h-96"
     />
   );
 }

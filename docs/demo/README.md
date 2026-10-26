@@ -2,13 +2,14 @@
 
 Grabado con el guion `e2e/demo/recorrido.spec.ts` sobre la build de producción. Solo datos ficticios.
 
-- `demo-60s.webm`: recorrido completo de la demo (58 s).
+- `demo-60s.webm`: recorrido completo de la demo (61 s).
 - `01-peticion.png`: petición con 49 de 50 firmas.
 - `02-desglose.png`: firmas por distrito local y federal.
 - `03-comprobante.png`: comprobante de la firma 50.
 - `04-verificado.png`: el comprobante se verifica como válido.
 - `05-umbral.png`: petición con 50 de 50 y el umbral alcanzado.
 - `06-escrito.png`: escrito del Art. 8 con la marca "SIMULACIÓN – NO ENVIADO".
+- `07-mapa.png`: mapa de firmas por sección. Solo se pintan secciones con 5 firmas o más.
 
 ## Volver a grabar
 
