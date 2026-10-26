@@ -3,9 +3,11 @@ import { notFound } from "next/navigation";
 import { connection } from "next/server";
 import { Suspense } from "react";
 import { ConteoFirmas } from "@/components/conteo-firmas";
+import { DesgloseDistritos } from "@/components/desglose-distritos";
 import { EnlaceBoton } from "@/components/enlace-boton";
 import { PorConstruir } from "@/components/por-construir";
 import { obtenerPeticion } from "@/lib/consultas";
+import { obtenerDesglosePorDistrito } from "@/lib/desglose";
 
 const textoEstadoEnvio = {
   pendiente: "Pendiente: aún no se alcanza el umbral.",
@@ -36,7 +38,10 @@ export default function Peticion({ params }: PageProps<"/peticion/[id]">) {
 
 async function ContenidoPeticion({ id }: { id: string }) {
   await connection();
-  const datos = await obtenerPeticion(id);
+  const [datos, desglose] = await Promise.all([
+    obtenerPeticion(id),
+    obtenerDesglosePorDistrito(id),
+  ]);
   if (!datos) notFound();
 
   const { peticion, conteo, raiz, envio } = datos;
@@ -73,10 +78,11 @@ async function ContenidoPeticion({ id }: { id: string }) {
         </div>
       </dl>
 
+      <DesgloseDistritos desglose={desglose} />
+
       <PorConstruir
-        titulo="Tablero del umbral"
+        titulo="Envío al umbral"
         tareas={[
-          "Mostrar el avance hacia el umbral y el desglose por distrito.",
           "Al llegar al umbral, habilitar la generación del PDF del Art. 8 (simulado).",
         ]}
       />
