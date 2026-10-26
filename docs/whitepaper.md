@@ -149,7 +149,7 @@ Funciones posteriores:
 
 ## 8. Gobernanza
 
-Una asociación civil, Rogatio A.C., opera la plataforma (por verificar: aún no constituida). El gobierno es destinatario de peticiones. Nunca es el dueño. Insitia Labs puede vender implementaciones del mismo motor abierto a otros clientes. Nunca controla la plataforma.
+Una asociación civil, Rogatio A.C., opera la plataforma (por verificar: aún no constituida). El gobierno es destinatario de peticiones. Nunca es el dueño. Ninguna empresa ni organización externa controla la plataforma.
 
 Razones de la independencia:
 
