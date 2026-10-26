@@ -27,7 +27,9 @@ export async function seccionEsElegible(
     })
     .from(seccionesElectorales)
     .innerJoin(jurisdicciones, eq(jurisdicciones.id, seccionesElectorales.alcaldiaId))
-    .where(and(eq(seccionesElectorales.entidad, entidad), eq(seccionesElectorales.seccion, seccion)));
+    .where(
+      and(eq(seccionesElectorales.entidad, entidad), eq(seccionesElectorales.seccion, seccion)),
+    );
   if (!fila) return { elegible: false, alcaldia: null };
 
   // Sube por padre_id desde los tres nodos de la sección.
