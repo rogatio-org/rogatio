@@ -16,22 +16,26 @@ function ListaDistritos({
 }) {
   const id = useId();
   return (
-    <div className="space-y-2">
-      <h3 id={id} className="text-sm font-semibold">
+    <div className="space-y-3">
+      <h3 id={id} className="text-sm font-semibold tracking-wide text-muted-foreground uppercase">
         {titulo}
       </h3>
-      <ul aria-labelledby={id} className="space-y-2">
+      <ul aria-labelledby={id} className="space-y-3">
         {distritos.map((d) => {
           const numero = numeroDeDistrito(d.codigo);
           return (
-            <li key={d.codigo} className="space-y-1">
-              <div className="flex items-baseline justify-between gap-2 text-sm">
-                <span title={d.nombre}>{numero === null ? d.nombre : `Distrito ${numero}`}</span>
-                <span className="font-mono tabular-nums">{plural(d.firmas)}</span>
+            <li key={d.codigo} className="space-y-1.5">
+              <div className="flex items-baseline justify-between gap-2">
+                <span className="font-medium" title={d.nombre}>
+                  {numero === null ? d.nombre : `Distrito ${numero}`}
+                </span>
+                <span className="text-sm tabular-nums text-muted-foreground">
+                  {plural(d.firmas)}
+                </span>
               </div>
-              <div aria-hidden className="h-2 w-full overflow-hidden rounded-full bg-muted">
+              <div aria-hidden className="h-2.5 w-full overflow-hidden rounded-full bg-muted">
                 <div
-                  className="h-full bg-primary"
+                  className="h-full rounded-full bg-primary"
                   style={{ width: `${total ? Math.round((d.firmas / total) * 100) : 0}%` }}
                 />
               </div>
@@ -50,9 +54,9 @@ export function DesgloseDistritos({ desglose }: { desglose: DesglosePorDistrito 
   const total = federales.reduce((s, d) => s + d.firmas, 0) + sinDistrito;
 
   return (
-    <section aria-labelledby={id} className="space-y-4 rounded-lg border p-4">
+    <section aria-labelledby={id} className="space-y-5 rounded-xl border bg-card p-5 sm:p-6">
       <div className="space-y-1">
-        <h2 id={id} className="font-semibold">
+        <h2 id={id} className="text-xl font-bold tracking-tight">
           Firmas por distrito
         </h2>
         <p className="text-sm text-muted-foreground">
@@ -61,7 +65,7 @@ export function DesgloseDistritos({ desglose }: { desglose: DesglosePorDistrito 
       </div>
       {total === 0 && <p className="text-sm text-muted-foreground">Aún no hay firmas.</p>}
       {federales.length > 0 && (
-        <div className="grid gap-6 sm:grid-cols-2">
+        <div className="grid gap-6 sm:grid-cols-2 sm:gap-10">
           <ListaDistritos titulo="Distrito local" distritos={locales} total={total} />
           <ListaDistritos titulo="Distrito federal" distritos={federales} total={total} />
         </div>
