@@ -1,9 +1,9 @@
 import { MARCA_SIMULACION, type EscritoLleno } from "@/lib/escrito-art8";
 
-// Hoja carta.
+// Hoja carta. Los elementos fijos se repiten en cada página impresa.
 const estiloPagina = "@page { size: letter; margin: 1.5cm 2cm; }";
 
-/** Escrito del Art. 8 con formato de documento. */
+/** Escrito del Art. 8 con formato de documento y la marca de simulación en cada página. */
 export function DocumentoEscrito({ escrito }: { escrito: EscritoLleno }) {
   const { secciones, firmantes } = escrito;
   const seccion = (id: string) => secciones.find((s) => s.id === id);
@@ -14,7 +14,33 @@ export function DocumentoEscrito({ escrito }: { escrito: EscritoLleno }) {
     <>
       <style>{estiloPagina}</style>
 
+      <div
+        aria-hidden
+        className="pointer-events-none fixed inset-0 z-10 hidden items-center justify-center overflow-hidden select-none print:flex"
+      >
+        <span className="-rotate-35 text-5xl font-black whitespace-nowrap text-red-600/15">
+          {MARCA_SIMULACION}
+        </span>
+      </div>
+      <p className="fixed inset-x-0 top-0 hidden text-center text-xs font-bold tracking-wide text-red-700 print:block">
+        {MARCA_SIMULACION}
+      </p>
+      <p className="fixed inset-x-0 bottom-0 hidden text-center text-xs font-bold tracking-wide text-red-700 print:block">
+        {MARCA_SIMULACION}
+      </p>
+
+      {/* thead y tfoot se repiten en cada página: reservan el espacio de las marcas fijas. */}
       <table className="w-full border-collapse">
+        <thead className="hidden print:table-header-group">
+          <tr>
+            <td className="h-8" />
+          </tr>
+        </thead>
+        <tfoot className="hidden print:table-footer-group">
+          <tr>
+            <td className="h-8" />
+          </tr>
+        </tfoot>
         <tbody>
           <tr>
             <td className="p-0">
