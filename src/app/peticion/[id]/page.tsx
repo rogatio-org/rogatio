@@ -9,6 +9,7 @@ import { DesgloseDistritos } from "@/components/desglose-distritos";
 import { EnlaceBoton } from "@/components/enlace-boton";
 import { EnlaceEscrito } from "@/components/enlace-escrito";
 import { AvisoUmbral, EstadoEnvio } from "@/components/estado-umbral";
+import { MapaFirmas } from "@/components/mapa-firmas";
 import { Badge } from "@/components/ui/badge";
 import { obtenerPeticion } from "@/lib/consultas";
 import { obtenerDesglosePorDistrito } from "@/lib/desglose";
@@ -118,7 +119,7 @@ async function ContenidoPeticion({ id }: { id: string }) {
 
           <DesgloseDistritos desglose={desglose} />
 
-          {/* Aquí va <MapaFirmas>: sección "Firmas por sección". */}
+          <MapaFirmas id={id} />
 
           <section
             aria-labelledby="registro-publico"
