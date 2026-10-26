@@ -7,6 +7,8 @@ export type ResultadoVerificacion =
   | {
       estado: "valido" | "no_valido";
       comprobante: Comprobante;
+      // La hoja y la prueba llevan a la raíz del comprobante.
+      inclusionValida: boolean;
       // null si no se dio una raíz publicada para comparar.
       coincideRaizPublicada: boolean | null;
     }
@@ -68,7 +70,13 @@ export async function verificarTexto(
 
   const publicada = raizPublicada?.trim().toLowerCase();
   const coincideRaizPublicada = publicada ? publicada === comprobante.raiz : null;
-  const valido = (await verificarComprobante(comprobante)) && coincideRaizPublicada !== false;
+  const inclusionValida = await verificarComprobante(comprobante);
+  const valido = inclusionValida && coincideRaizPublicada !== false;
 
-  return { estado: valido ? "valido" : "no_valido", comprobante, coincideRaizPublicada };
+  return {
+    estado: valido ? "valido" : "no_valido",
+    comprobante,
+    inclusionValida,
+    coincideRaizPublicada,
+  };
 }

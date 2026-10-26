@@ -20,14 +20,22 @@ export function VerificadorComprobante() {
   async function cargarArchivo(evento: ChangeEvent<HTMLInputElement>) {
     const archivo = evento.target.files?.[0];
     setResultado(null);
-    setTexto(archivo ? await archivo.text() : "");
+    try {
+      setTexto(archivo ? await archivo.text() : "");
+    } catch {
+      setTexto("");
+      setResultado({ estado: "error", error: "no_es_json" });
+    }
   }
 
   async function verificar(evento: FormEvent) {
     evento.preventDefault();
     setVerificando(true);
-    setResultado(await verificarTexto(texto, raizPublicada));
-    setVerificando(false);
+    try {
+      setResultado(await verificarTexto(texto, raizPublicada));
+    } finally {
+      setVerificando(false);
+    }
   }
 
   return (
@@ -111,7 +119,7 @@ function Resultado({ resultado }: { resultado: ResultadoVerificacion }) {
     );
   }
 
-  const { comprobante, coincideRaizPublicada } = resultado;
+  const { comprobante, inclusionValida, coincideRaizPublicada } = resultado;
   const enlacePeticion = (
     <Link href={`/peticion/${encodeURIComponent(comprobante.peticion)}`} className="underline">
       la página de la petición
@@ -132,7 +140,7 @@ function Resultado({ resultado }: { resultado: ResultadoVerificacion }) {
 
   return (
     <Aviso tono="no_valido" titulo="No válido">
-      {coincideRaizPublicada === false
+      {inclusionValida
         ? "La raíz del comprobante no coincide con la raíz publicada que pegaste. Revisa que ambas sean del mismo número de firmas."
         : "Los datos del comprobante no llevan a su raíz: el comprobante fue alterado o está dañado. Descárgalo otra vez desde la página de tu comprobante."}
     </Aviso>

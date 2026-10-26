@@ -57,7 +57,18 @@ describe("verificarTexto", () => {
     const igual = await verificarTexto(texto, ` ${c.raiz.toUpperCase()} `);
     expect(igual).toMatchObject({ estado: "valido", coincideRaizPublicada: true });
     const distinta = await verificarTexto(texto, alterar(c.raiz));
-    expect(distinta).toMatchObject({ estado: "no_valido", coincideRaizPublicada: false });
+    expect(distinta).toMatchObject({
+      estado: "no_valido",
+      inclusionValida: true,
+      coincideRaizPublicada: false,
+    });
+  });
+
+  it("distingue un comprobante alterado aunque se dé una raíz publicada distinta", async () => {
+    const c = await comprobanteDeMuestra();
+    const texto = JSON.stringify({ ...c, hoja: alterar(c.hoja) });
+    const resultado = await verificarTexto(texto, alterar(c.raiz));
+    expect(resultado).toMatchObject({ estado: "no_valido", inclusionValida: false });
   });
 
   it("da error si el archivo no es JSON o no tiene la forma del comprobante", async () => {

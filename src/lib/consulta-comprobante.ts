@@ -42,6 +42,9 @@ export async function obtenerComprobante(
   if (!raizDeSuMomento) return null;
 
   const hojas = (await hojasDePeticion(db, peticion.id)).slice(0, raizDeSuMomento.tamano);
+  if (hojas.length !== raizDeSuMomento.tamano) {
+    throw new Error("Registro inconsistente: faltan hojas para la raíz guardada");
+  }
   const prueba = await pruebaDeInclusion(firma.secuencia - 1, hojas);
 
   return {

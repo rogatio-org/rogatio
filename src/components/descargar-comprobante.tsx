@@ -12,7 +12,8 @@ export function DescargarComprobante({ comprobante }: { comprobante: Comprobante
     enlace.href = url;
     enlace.download = `comprobante-${comprobante.peticion}-${comprobante.secuencia}.json`;
     enlace.click();
-    URL.revokeObjectURL(url);
+    // Algunos navegadores cancelan la descarga si la URL se revoca de inmediato.
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
   }
 
   return (
