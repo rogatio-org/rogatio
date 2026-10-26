@@ -7,7 +7,7 @@ const enlaces = [
 
 export function Encabezado() {
   return (
-    <header className="border-b">
+    <header className="border-b print:hidden">
       <nav
         aria-label="Principal"
         className="mx-auto flex max-w-2xl items-center justify-between gap-4 px-4 py-3"
