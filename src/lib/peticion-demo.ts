@@ -24,9 +24,27 @@ export type PeticionDemo = {
     enviado_en: string | null;
     acuse_hash: string | null;
   };
+  // Datos ficticios del escrito del Art. 8. Solo en el fixture; la base aún no los guarda.
+  escrito?: DatosEscrito;
+};
+
+export type DatosEscrito = {
+  representante_comun: string;
+  domicilio_notificaciones: string;
+  correo_notificaciones: string;
+  // Cargo, no nombre, hasta que legal lo confirme.
+  destinatario: string;
+  oficialia: string;
+  hechos: string;
+  puntos_petitorios: string[];
 };
 
 export const peticionDemo = datos as PeticionDemo;
+
+/** Datos del escrito para un slug. Solo la petición de la demo los tiene. */
+export function datosEscritoDe(id: string): DatosEscrito | null {
+  return id === peticionDemo.peticion.id ? (peticionDemo.escrito ?? null) : null;
+}
 
 export function obtenerPeticionDemo(id: string): PeticionDemo | null {
   return id === peticionDemo.peticion.id ? peticionDemo : null;
