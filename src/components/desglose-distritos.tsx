@@ -59,9 +59,8 @@ export function DesgloseDistritos({ desglose }: { desglose: DesglosePorDistrito 
           Según la sección de la credencial de quien firma. Solo se publican conteos.
         </p>
       </div>
-      {total === 0 ? (
-        <p className="text-sm text-muted-foreground">Aún no hay firmas.</p>
-      ) : (
+      {total === 0 && <p className="text-sm text-muted-foreground">Aún no hay firmas.</p>}
+      {federales.length > 0 && (
         <div className="grid gap-6 sm:grid-cols-2">
           <ListaDistritos titulo="Distrito local" distritos={locales} total={total} />
           <ListaDistritos titulo="Distrito federal" distritos={federales} total={total} />

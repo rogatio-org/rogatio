@@ -17,8 +17,8 @@ export function AvisoUmbral({ conteo }: { conteo: PeticionDemo["conteo"] }) {
       <div className="space-y-1">
         <h2 className="font-semibold">Umbral alcanzado</h2>
         <p className="text-sm">
-          La petición juntó {conteo.firmas} de {conteo.umbral} firmas verificadas. Ya puede
-          generarse el escrito del Art. 8 para la autoridad.
+          La petición juntó {conteo.firmas} de {conteo.umbral} firmas verificadas. El
+          siguiente paso es el escrito del Art. 8 para la autoridad (simulado).
         </p>
       </div>
     </section>
@@ -28,7 +28,7 @@ export function AvisoUmbral({ conteo }: { conteo: PeticionDemo["conteo"] }) {
 const textoEstado: Record<Estado, string> = {
   pendiente: "Pendiente: aún no se alcanza el umbral.",
   generado: "Escrito del Art. 8 generado.",
-  enviado_simulado: "Enviado a la autoridad.",
+  enviado_simulado: "Envío simulado a la autoridad.",
   fallido: "No se pudo generar el envío.",
 };
 
