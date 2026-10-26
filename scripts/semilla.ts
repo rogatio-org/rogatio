@@ -31,6 +31,27 @@ const DISTRITACION = "INE/CG875/2022";
 // La petición sale del mismo fixture que usa la UI.
 const { id: SLUG, titulo: TITULO, texto: TEXTO, categoria: CATEGORIA } = demo.peticion;
 
+// Firmas concentradas en Roma Norte, alrededor de la calle Mérida: [sección, firmas].
+// Seis secciones llegan a 5 o más y salen en el mapa; cuatro quedan por debajo.
+const REPARTO_SECCIONES: [number, number][] = [
+  [4542, 10],
+  [4543, 8],
+  [4540, 7],
+  [4544, 6],
+  [4556, 5],
+  [4539, 5],
+  [4773, 3],
+  [4786, 2],
+  [4538, 2],
+  [4541, 1],
+];
+const SECCIONES_FIRMAS = REPARTO_SECCIONES.flatMap(([seccion, n]) =>
+  Array<number>(n).fill(seccion),
+);
+if (SECCIONES_FIRMAS.length !== FIRMAS_PRECARGADAS) {
+  throw new Error("El reparto por sección debe sumar las firmas precargadas");
+}
+
 function requerida(nombre: string): string {
   const valor = process.env[nombre];
   if (!valor) throw new Error(`Falta ${nombre}`);
@@ -187,9 +208,7 @@ async function principal() {
 
   for (let i = 1; i <= FIRMAS_PRECARGADAS; i++) {
     const n = String(i).padStart(2, "0");
-    // Reparte a las personas a lo largo del CSV para cubrir todos los distritos.
-    const { seccion } =
-      seccionesCuauhtemoc[Math.floor(((i - 1) * seccionesCuauhtemoc.length) / FIRMAS_PRECARGADAS)];
+    const seccion = SECCIONES_FIRMAS[i - 1];
     // CURP inválidas a propósito: solo alimentan el HMAC.
     const curp = `XEXX000101HDFXXX${n}`;
     const hmac = curpHmac(curp, llaveHmac);

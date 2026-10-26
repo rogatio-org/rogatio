@@ -7,6 +7,7 @@ import { DesgloseDistritos } from "@/components/desglose-distritos";
 import { EnlaceBoton } from "@/components/enlace-boton";
 import { EnlaceEscrito } from "@/components/enlace-escrito";
 import { AvisoUmbral, EstadoEnvio } from "@/components/estado-umbral";
+import { MapaFirmas } from "@/components/mapa-firmas";
 import { obtenerPeticion } from "@/lib/consultas";
 import { obtenerDesglosePorDistrito } from "@/lib/desglose";
 import { estadoEnvioVisible } from "@/lib/escrito-art8";
@@ -83,6 +84,8 @@ async function ContenidoPeticion({ id }: { id: string }) {
       </dl>
 
       <DesgloseDistritos desglose={desglose} />
+
+      <MapaFirmas id={id} />
     </article>
   );
 }
