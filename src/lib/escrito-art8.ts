@@ -2,73 +2,100 @@
 import { idComprobante } from "./comprobante";
 import type { DatosEscrito, EstadoEnvio, PeticionDemo } from "./peticion-demo";
 
-// Provisional: borrador base de #26. Se cambia por la versión congelada de #31 (#37).
+// Provisional: borrador de baches de #31 (data/fixtures/escrito-art8-baches.txt), aún sin
+// congelar. Al congelarse #31, se copia aquí la versión final (#37). Las marcas [POR VERIFICAR]
+// son de ese borrador y se quedan hasta entonces.
 export const ESTADO_PLANTILLA = "provisional" as const;
 
 export const MARCA_SIMULACION = "SIMULACIÓN – NO ENVIADO";
 
 export type SeccionPlantilla = { id: string; titulo?: string; plantilla: string };
 
+// Mismo texto que data/fixtures/escrito-art8-baches.txt, partido en secciones para la vista.
+// La prueba compara las dos versiones. {fundamento} sale de FUNDAMENTO_POR_CATEGORIA.
 export const PLANTILLA_ESCRITO: SeccionPlantilla[] = [
   {
     id: "destinatario",
-    plantilla: "{destinatario}\n{oficialia}\nP R E S E N T E",
+    plantilla:
+      "PERSONA TITULAR DE LA ALCALDÍA CUAUHTÉMOC\n" +
+      "Oficialía de Partes: Aldama y Mina sin número, colonia Buenavista, C.P. 06350, Ciudad de México " +
+      "[POR VERIFICAR: C.P. 06350 o 03650; horario; forma de cortesía del cargo]\n" +
+      "P r e s e n t e",
   },
   {
     id: "proemio",
     plantilla:
-      "{representante_comun}, por mi propio derecho y como representante común de las " +
-      "{numero_firmantes} personas firmantes, cuya relación se anexa, señalo como domicilio " +
-      "para oír y recibir notificaciones el ubicado en {domicilio_notificaciones} y como correo " +
-      "electrónico {correo_notificaciones}. Con fundamento en el artículo 8 de la Constitución " +
-      "Política de los Estados Unidos Mexicanos y en los artículos 33, 43, 44 y 46 de la Ley de " +
-      "Procedimiento Administrativo de la Ciudad de México [por cotejar], respetuosamente expongo:",
+      "{representante_comun}, en mi carácter de representante común de las {numero_firmantes} " +
+      "personas firmantes que aparecen en el Anexo 1, señalo como domicilio para recibir " +
+      "notificaciones el ubicado en {domicilio_notificaciones}. {acepta_notificaciones_electronicas}: " +
+      "acepto recibir notificaciones electrónicas en el correo {correo_notificaciones}. Autorizo " +
+      "para oír y recibir notificaciones a {personas_autorizadas}.",
+  },
+  {
+    id: "preambulo",
+    plantilla:
+      "Con fundamento en el artículo 8 de la Constitución Política de los Estados Unidos Mexicanos " +
+      "y en los artículos 43 y 44 de la Ley de Procedimiento Administrativo de la Ciudad de México, " +
+      "de manera pacífica y respetuosa, presento la siguiente petición.",
   },
   {
     id: "hechos",
     titulo: "HECHOS",
     plantilla:
-      "1. {hechos}\n" +
-      "2. {numero_firmantes} personas con domicilio en la alcaldía {alcaldia} firmaron esta " +
-      "petición en Rogatio {periodo_firmas}. Cada firma tiene un comprobante " +
-      "público que se puede verificar en {url_verificacion}. La raíz del registro de las " +
-      "{numero_firmantes} firmas es {raiz_registro}.",
+      "1. Las personas firmantes vivimos en la alcaldía Cuauhtémoc.\n" +
+      "2. La calle Mérida, en la colonia Roma Norte, tiene baches en su carpeta asfáltica. " +
+      "[POR VERIFICAR: tramo exacto entre calles y estado actual en 2026]\n" +
+      "3. Los baches afectan el paso seguro de vehículos, bicicletas y peatones.\n" +
+      "4. La calle Mérida es una vialidad secundaria de la demarcación. No es un eje vial ni una " +
+      "vía primaria. [POR VERIFICAR: clasificación oficial]",
   },
-  { id: "competencia", titulo: "COMPETENCIA", plantilla: "{fundamento}" },
+  {
+    id: "fundamento",
+    titulo: "FUNDAMENTO",
+    plantilla:
+      "{fundamento}\n\n" +
+      "[POR VERIFICAR: cotejar ambos artículos con la reforma de la LOA del 06-10-2023]",
+  },
   {
     id: "peticion",
     titulo: "PETICIÓN",
-    plantilla: "Por lo expuesto, respetuosamente pido:\n{puntos_petitorios}",
+    plantilla:
+      "Por lo expuesto, solicito respetuosamente:\n\n" +
+      "PRIMERO. Que la Alcaldía repare todos los baches de la calle Mérida, colonia Roma Norte, " +
+      "en un plazo de 60 días naturales.\n" +
+      "SEGUNDO. Que la Alcaldía informe por escrito el número de baches reparados, las fechas de " +
+      "los trabajos y el tramo atendido.\n" +
+      "TERCERO. Que la Alcaldía responda por escrito y en breve término, en el domicilio o el " +
+      "correo que señalo, conforme al artículo 8 constitucional.",
   },
-  { id: "copias", plantilla: "C.c.p. {copias}" },
-  { id: "lugar_fecha", plantilla: "Ciudad de México, a {fecha}." },
+  { id: "atentamente", plantilla: "ATENTAMENTE" },
+  { id: "lugar_fecha", plantilla: "Ciudad de México, a {fecha}" },
   {
     id: "firma",
-    plantilla: "_______________________________\n{representante_comun}\nRepresentante común",
+    plantilla: "{firma_representante}\n{representante_comun}\nRepresentante común",
   },
   {
+    // Sin título: la primera línea es el encabezado del anexo y la segunda la raíz.
     id: "anexo",
-    titulo: "ANEXO. RELACIÓN DE PERSONAS FIRMANTES",
-    plantilla: "{anexo_firmantes}",
+    plantilla:
+      "ANEXO 1. Personas firmantes ({numero_firmantes})\n" +
+      "Raíz del registro de firmas: {raiz_hash}\n" +
+      "{anexo_firmantes}\n" +
+      "(Columnas: núm., nombre, sección electoral, firma o folio de verificación.)",
   },
 ];
 
 // Campos que llena quien llama. numero_firmantes y anexo_firmantes salen de la lista de firmantes.
 export const CAMPOS = [
-  "destinatario",
-  "oficialia",
   "representante_comun",
   "domicilio_notificaciones",
   "correo_notificaciones",
-  "hechos",
-  "alcaldia",
-  "periodo_firmas",
-  "fecha",
-  "url_verificacion",
-  "raiz_registro",
+  "acepta_notificaciones_electronicas",
+  "personas_autorizadas",
   "fundamento",
-  "puntos_petitorios",
-  "copias",
+  "fecha",
+  "firma_representante",
+  "raiz_hash",
 ] as const;
 
 export type Campo = (typeof CAMPOS)[number];
@@ -107,7 +134,7 @@ export function llenarEscrito(datos: CamposEscrito, firmantes: Firmante[]): Escr
   });
 
   const texto = secciones
-    .map(({ titulo, texto }) => (titulo ? `${titulo}\n${texto}` : texto))
+    .map(({ titulo, texto }) => (titulo ? `${titulo}\n\n${texto}` : texto))
     .join("\n\n");
   return { secciones, texto, firmantes };
 }
@@ -128,6 +155,13 @@ const FUNDAMENTO_POR_CATEGORIA: Record<string, string> = {
   basura: `La limpia y la recolección de basura son una facultad exclusiva de la alcaldía (${LOA}, art. 32 fr. IV).`,
   mercados: `La regulación de los mercados es una facultad exclusiva de la alcaldía (${LOA}, art. 32 fr. IV).`,
   parques: `Construir y mantener los espacios públicos a su cargo es una facultad exclusiva de la alcaldía (${LOA}, art. 34 fr. VI).`,
+  // Texto del borrador de #31 (docs/contenido-demo/baches.md).
+  "vialidad.secundaria.bache":
+    `El artículo 32, fracción IV, de la ${LOA} dice que es atribución exclusiva de la persona ` +
+    `titular de la Alcaldía "prestar los siguientes servicios públicos: [...] pavimentación, de ` +
+    `conformidad con la normatividad aplicable".\n\n` +
+    `El artículo 33 de la misma ley dice: "Es responsabilidad de las Alcaldías, rehabilitar y ` +
+    `mantener las vialidades, así como las guarniciones y banquetas requeridas en su demarcación".`,
   baches: `La rehabilitación y el mantenimiento de vialidades secundarias, guarniciones y banquetas son una facultad exclusiva de la alcaldía (${LOA}, arts. 32 fr. IV y 33).`,
 };
 
@@ -136,19 +170,9 @@ export function fundamentoDe(categoria: string): string | null {
   return FUNDAMENTO_POR_CATEGORIA[categoria] ?? null;
 }
 
-const ORDINALES = ["PRIMERO", "SEGUNDO", "TERCERO", "CUARTO", "QUINTO"];
-const PUNTO_RESPUESTA =
-  "Que se dé respuesta por escrito, en breve término, en el domicilio y el correo señalados.";
-
-/** Puntos petitorios numerados; el último siempre pide la respuesta por escrito. */
-export function puntosPetitorios(puntos: string[]): string {
-  const todos = [...puntos, PUNTO_RESPUESTA];
-  if (todos.length > ORDINALES.length) throw new Error("Demasiados puntos petitorios");
-  return todos.map((punto, i) => `${ORDINALES[i]}. ${punto}`).join("\n");
-}
-
 export type DistritoFirmantes = { nombre: string; firmantes: number };
 
+// Sin uso: el borrador de #31 no lleva C.c.p. Se queda por si la versión congelada lo pide.
 /** Copias: Concejo y diputación local de cada distrito de los firmantes (03-representantes, secc. 4). */
 export function copiasDelEscrito(
   alcaldia: string,
@@ -175,12 +199,6 @@ export function formatearFecha(fecha: Date | string): string {
   return formatoFecha.format(new Date(fecha));
 }
 
-/** "el 26 de octubre de 2026" o "entre el 24 de octubre de 2026 y el 26 de octubre de 2026". */
-export function periodoDeFirmas(inicio: Date | string, fin: Date | string): string {
-  const [desde, hasta] = [formatearFecha(inicio), formatearFecha(fin)];
-  return desde === hasta ? `el ${hasta}` : `entre el ${desde} y el ${hasta}`;
-}
-
 /** Umbral alcanzado: solo entonces existe el escrito. */
 export function escritoDisponible({ firmas, umbral }: PeticionDemo["conteo"]): boolean {
   return firmas >= umbral;
@@ -194,37 +212,25 @@ export function estadoEnvioVisible(
   return estado === "pendiente" && escritoDisponible(conteo) ? "generado" : estado;
 }
 
-/** Arma los campos con la petición, los datos del escrito y las copias. Un dato ausente queda vacío. */
+/** Arma los campos con la petición y los datos ficticios del escrito. Un dato ausente queda vacío. */
 export function camposDesdePeticion({
   peticion,
   escrito,
-  distritos,
   fecha,
-  urlVerificacion,
 }: {
   peticion: PeticionDemo;
   escrito: DatosEscrito;
-  distritos: DistritoFirmantes[];
   fecha: Date;
-  urlVerificacion: string;
 }): CamposEscrito {
-  const alcaldia = peticion.peticion.jurisdiccion.nombre;
   return {
-    destinatario: escrito.destinatario,
-    oficialia: escrito.oficialia,
     representante_comun: escrito.representante_comun,
     domicilio_notificaciones: escrito.domicilio_notificaciones,
     correo_notificaciones: escrito.correo_notificaciones,
-    hechos: escrito.hechos,
-    alcaldia,
-    periodo_firmas: periodoDeFirmas(peticion.peticion.creada_en, fecha),
-    fecha: formatearFecha(fecha),
-    url_verificacion: urlVerificacion,
-    raiz_registro: peticion.raiz.hash,
+    acepta_notificaciones_electronicas: escrito.acepta_notificaciones_electronicas,
+    personas_autorizadas: escrito.personas_autorizadas,
     fundamento: fundamentoDe(peticion.peticion.categoria) ?? "",
-    puntos_petitorios: escrito.puntos_petitorios.length
-      ? puntosPetitorios(escrito.puntos_petitorios)
-      : "",
-    copias: copiasDelEscrito(alcaldia, distritos, peticion.conteo.firmas),
+    fecha: formatearFecha(fecha),
+    firma_representante: escrito.firma_representante,
+    raiz_hash: peticion.raiz.hash,
   };
 }

@@ -1,17 +1,17 @@
 {
-  "_aviso": "Datos ficticios para maquetar la demo. Ninguna petición se envía. La semilla usa este mismo archivo. La mesa reemplaza la petición por el problema real.",
+  "_aviso": "Petición de baches (borrador). Datos de firmas sintéticos. Ninguna petición se envía. La semilla usa este mismo archivo. Lo pendiente está en docs/contenido-demo/baches.md.",
   "peticion": {
     "id": "peticion-demo",
-    "titulo": "Reparar el alumbrado público de la colonia Ejemplo Centro",
-    "texto": "Las personas firmantes, vecinas de la alcaldía Cuauhtémoc, solicitamos con fundamento en el Art. 8 de la Constitución que la alcaldía repare las luminarias apagadas de la colonia Ejemplo Centro y publique un calendario de mantenimiento.",
-    "categoria": "alumbrado",
+    "titulo": "Reparar los baches de la calle Mérida, colonia Roma Norte",
+    "texto": "Las personas firmantes, vecinas de la alcaldía Cuauhtémoc, ejercemos de manera pacífica y respetuosa el derecho de petición del Art. 8 de la Constitución federal. Solicitamos que la Alcaldía Cuauhtémoc repare todos los baches de la calle Mérida, en la colonia Roma Norte, en un plazo de 60 días naturales. Pedimos también un informe escrito con el número de baches reparados, las fechas de la obra y el tramo atendido. Pedimos que la respuesta sea por escrito, como indica el Art. 8.",
+    "categoria": "vialidad.secundaria.bache",
     "jurisdiccion": {
       "nivel": "alcaldia",
       "codigo": "09-015",
       "nombre": "Cuauhtémoc"
     },
     "autoridad": "Alcaldía Cuauhtémoc",
-    "ubicacion": "Colonia Ejemplo Centro (ficticia)",
+    "ubicacion": "Calle Mérida, colonia Roma Norte, alcaldía Cuauhtémoc (tramo y sección INE por verificar)",
     "creada_en": "2026-10-24T10:00:00-06:00"
   },
   "conteo": {
@@ -30,16 +30,12 @@
     "acuse_hash": null
   },
   "escrito": {
-    "_aviso": "Plantilla provisional: borrador base de #26, pendiente de congelar (#31). Representante, domicilio y correo son ficticios. Cargo y Oficialía de Partes por confirmar (#27).",
+    "_aviso": "Plantilla provisional: borrador de baches de #31 (data/fixtures/escrito-art8-baches.txt), pendiente de congelar. Representante, domicilio, correo y firma son ficticios o están por confirmar.",
     "representante_comun": "Persona Ficticia Uno",
     "domicilio_notificaciones": "Calle Ficticia 123, interior 4, colonia Ejemplo Centro, alcaldía Cuauhtémoc, C.P. 00000, Ciudad de México",
     "correo_notificaciones": "notificaciones@example.org",
-    "destinatario": "Persona titular de la Alcaldía Cuauhtémoc",
-    "oficialia": "Oficialía de Partes de la Alcaldía Cuauhtémoc, Aldama y Mina s/n, colonia Buenavista, C.P. 06350, Ciudad de México (por confirmar)",
-    "hechos": "En la colonia Ejemplo Centro hay luminarias apagadas en varias calles desde hace meses. Las calles quedan a oscuras por la noche.",
-    "puntos_petitorios": [
-      "Que la alcaldía repare las luminarias apagadas de la colonia Ejemplo Centro.",
-      "Que la alcaldía publique un calendario de mantenimiento del alumbrado público de la colonia."
-    ]
+    "acepta_notificaciones_electronicas": "Sí",
+    "personas_autorizadas": "(por confirmar)",
+    "firma_representante": "(firma por confirmar)"
   }
 }
