@@ -41,7 +41,9 @@ async function desplazar(page: Page, y: number) {
 async function existe(page: Page, ruta: string) {
   const respuesta = await page.request.get(ruta);
   if (respuesta.ok()) return true;
-  console.warn(`Aviso: ${ruta} respondió ${respuesta.status()}; se salta la escena.`);
+  console.warn(
+    `Aviso: ${ruta} respondió ${respuesta.status()}; se salta la escena.`,
+  );
   return false;
 }
 
@@ -54,19 +56,27 @@ test.beforeAll(() => {
 test("recorrido de la demo", async ({ page }) => {
   // 1. Inicio.
   await page.goto("/");
-  await expect(page.getByRole("heading", { level: 1, name: "Rogatio" })).toBeVisible();
+  await expect(
+    page.getByRole("heading", { level: 1, name: "Rogatio" }),
+  ).toBeVisible();
   await pausa(page, "inicio");
   await captura(page, "01-inicio");
 
   // 2. Petición con 49 de 50 y desglose por distrito.
   await page.getByRole("link", { name: "Ver la petición de ejemplo" }).click();
-  await expect(page.getByRole("progressbar")).toHaveAttribute("aria-valuenow", "49");
+  await expect(page.getByRole("progressbar")).toHaveAttribute(
+    "aria-valuenow",
+    "49",
+  );
   await pausa(page, "peticion");
   await captura(page, "02-peticion");
   const desglose = page.getByText(/Distrito/).first();
   if (await desglose.count()) {
     await desglose.scrollIntoViewIfNeeded();
-    await desplazar(page, await page.evaluate(() => document.body.scrollHeight));
+    await desplazar(
+      page,
+      await page.evaluate(() => document.body.scrollHeight),
+    );
     await pausa(page, "desglose");
     await captura(page, "03-desglose");
     await desplazar(page, 0);
@@ -76,18 +86,26 @@ test("recorrido de la demo", async ({ page }) => {
 
   // 3. Firmar con la credencial de muestra.
   await page.getByRole("link", { name: "Firmar esta petición" }).click();
-  await expect(page.getByRole("heading", { name: "Aviso de privacidad" })).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "Aviso de privacidad" }),
+  ).toBeVisible();
   await pausa(page, "aviso");
   await page.getByRole("checkbox").check();
   await page.getByRole("button", { name: "Acepto y continúo" }).click();
-  await expect(page.getByRole("heading", { name: "Tu credencial para votar" })).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "Tu credencial para votar" }),
+  ).toBeVisible();
   await pausa(page, "credencial");
-  await page.getByRole("button", { name: "Leer credencial (simulado)" }).click();
+  await page
+    .getByRole("button", { name: "Leer credencial (simulado)" })
+    .click();
   await desplazar(page, 700);
   await pausa(page, "datosLeidos");
   await captura(page, "04-credencial");
   await page.getByRole("button", { name: "Continuar" }).click();
-  await expect(page.getByRole("heading", { name: "Confirma y firma" })).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "Confirma y firma" }),
+  ).toBeVisible();
   await pausa(page, "confirmar");
   await page.getByRole("button", { name: "Firmar la petición" }).click();
 
@@ -105,7 +123,9 @@ test("recorrido de la demo", async ({ page }) => {
 
   // 5. Verificar el comprobante.
   await page.getByRole("link", { name: "Verificar un comprobante" }).click();
-  await expect(page.getByRole("heading", { name: "Verificar un comprobante" })).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "Verificar un comprobante" }),
+  ).toBeVisible();
   await pausa(page, "verificar");
   await page.getByLabel("Sube tu comprobante (.json)").setInputFiles(archivo);
   await page.getByRole("button", { name: "Verificar" }).click();
@@ -117,15 +137,23 @@ test("recorrido de la demo", async ({ page }) => {
 
   // 6. Petición con 50 de 50 y umbral alcanzado.
   await page.goto(`/peticion/${SLUG}`);
-  await expect(page.getByRole("heading", { name: "Umbral alcanzado" })).toBeVisible();
-  await expect(page.getByRole("progressbar")).toHaveAttribute("aria-valuenow", "50");
+  await expect(
+    page.getByRole("heading", { name: "Umbral alcanzado" }),
+  ).toBeVisible();
+  await expect(page.getByRole("progressbar")).toHaveAttribute(
+    "aria-valuenow",
+    "50",
+  );
   await pausa(page, "umbral");
   await captura(page, "07-umbral");
 
   // 7. Escrito del Art. 8 con la marca de simulación.
   if (await existe(page, `/peticion/${SLUG}/escrito`)) {
     await page.getByRole("link", { name: "Ver escrito del Art. 8" }).click();
-    const marca = page.getByText("SIMULACIÓN – NO ENVIADO").filter({ visible: true }).first();
+    const marca = page
+      .getByText("SIMULACIÓN – NO ENVIADO")
+      .filter({ visible: true })
+      .first();
     await expect(marca).toBeVisible();
     await marca.scrollIntoViewIfNeeded();
     await pausa(page, "escrito");
