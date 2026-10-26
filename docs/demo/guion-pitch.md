@@ -1,0 +1,33 @@
+# Guion del pitch
+
+Duración: 1 minuto. El guion se dice sobre el video de la demo.
+
+- Deck: <https://claude.ai/artifact/LmsvjRcveBdEzdLiTx5FM6>
+- Video: [`demo-60s.webm`](demo-60s.webm) (61 s)
+
+La portada está en pantalla antes de empezar. El reloj arranca con el video. Las demás diapositivas quedan para responder preguntas.
+
+## Guion
+
+Los tiempos son del video. Cada fila tiene el tiempo de su escena: no hay que decir más palabras de las que caben.
+
+| Video | Pantalla | Qué decir |
+| --- | --- | --- |
+| 0:00 | Inicio, petición con 49 de 50 | «Velitis, iubeatis, Quirites?» En Roma, el magistrado preguntaba al pueblo. Rogatio la invierte: el pueblo pregunta y la autoridad responde. Es código abierto para la participación ciudadana. |
+| 0:11 | Firmas por distrito y mapa por sección | Sirve desde una calle hasta el nivel federal. Este ejemplo es de la Alcaldía Cuauhtémoc: vemos las firmas por distrito y por sección. |
+| 0:18 | Aviso de privacidad | Para firmar, acepta el aviso de privacidad. |
+| 0:21 | Credencial | Se lee su credencial del INE. Su sección dice que vive en Cuauhtémoc. |
+| 0:29 | Confirmar | Confirma y firma. |
+| 0:32 | Comprobante 50 | Firma 50. Su comprobante no lleva su nombre ni su CURP. |
+| 0:37 | Verificar, válido | Cualquiera lo verifica en su navegador. Y la raíz del registro se ancla en Bitcoin con OpenTimestamps: nadie puede cambiar la fecha. |
+| 0:46 | Umbral alcanzado | 50 de 50: umbral alcanzado. |
+| 0:52 | Escrito del Art. 8 | Rogatio genera el escrito del Art. 8. La alcaldía debe responder por escrito. El pueblo pregunta. La autoridad responde. |
+
+## Antes de presentar
+
+- **Ensayen con reloj.** Cada escena da unas 2 palabras por segundo. Si una frase no cabe, recórtenla; no esperen al video.
+- **Tiempos del video.** Salen de los cortes de escena del video y de un cuadro por segundo. Puede haber un desfase de 1 segundo.
+- **OpenTimestamps no sale en el video.** El video se grabó antes de fusionar OpenTimestamps. La línea de 0:37 lo dice en voz alta. Para que se vea, hay que volver a grabar con `npm run demo:video`.
+- **El video no está dentro del deck.** Hay que reproducirlo aparte.
+- **Es una demo.** Las firmas son sintéticas, la credencial es simulada y el escrito no se envía. Si alguien pregunta, díganlo.
+- **Equipo.** Falta llenar `[Equipo: nombres y contacto]` en la última diapositiva.
