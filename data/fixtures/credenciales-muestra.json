@@ -1,0 +1,29 @@
+{
+  "_aviso": "Credenciales de muestra con datos ficticios para la demo. No son de personas reales y no tienen validez oficial. La CURP es sintética con dígito verificador válido. Las secciones son reales: 4523 es de Cuauhtémoc y 4269 de Benito Juárez.",
+  "credenciales": [
+    {
+      "id": "cuauhtemoc",
+      "etiqueta": "Muestra de Cuauhtémoc",
+      "imagen": "/demo/credencial-muestra.svg",
+      "modelo": "G",
+      "nombre": "ANA MUESTRA FICTICIA",
+      "curp": "MUFA000101MDFSCNA8",
+      "claveElector": "MSFCAN00010109M100",
+      "entidad": 9,
+      "seccion": 4523,
+      "vigencia": 2034
+    },
+    {
+      "id": "otra-alcaldia",
+      "etiqueta": "Muestra de otra alcaldía (Benito Juárez)",
+      "imagen": "/demo/credencial-otra-alcaldia.svg",
+      "modelo": "G",
+      "nombre": "LUIS EJEMPLO FICTICIO",
+      "curp": "EEFL990101HDFJCS05",
+      "claveElector": "EJFCLS99010109H200",
+      "entidad": 9,
+      "seccion": 4269,
+      "vigencia": 2034
+    }
+  ]
+}
