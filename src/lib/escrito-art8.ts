@@ -1,6 +1,6 @@
 // Escrito de petición del Art. 8 (simulado). Isomórfico: no lee la base.
 import { idComprobante } from "./comprobante";
-import type { DatosEscrito, PeticionDemo } from "./peticion-demo";
+import type { DatosEscrito, EstadoEnvio, PeticionDemo } from "./peticion-demo";
 
 // Provisional: borrador base de #26. Se cambia por la versión congelada de #31 (#37).
 export const ESTADO_PLANTILLA = "provisional" as const;
@@ -184,6 +184,14 @@ export function periodoDeFirmas(inicio: Date | string, fin: Date | string): stri
 /** Umbral alcanzado: solo entonces existe el escrito. */
 export function escritoDisponible({ firmas, umbral }: PeticionDemo["conteo"]): boolean {
   return firmas >= umbral;
+}
+
+/** Sin registro de envío, el escrito cuenta como generado al llegar al umbral. */
+export function estadoEnvioVisible(
+  estado: EstadoEnvio,
+  conteo: PeticionDemo["conteo"],
+): EstadoEnvio {
+  return estado === "pendiente" && escritoDisponible(conteo) ? "generado" : estado;
 }
 
 /** Arma los campos con la petición, los datos del escrito y las copias. Un dato ausente queda vacío. */

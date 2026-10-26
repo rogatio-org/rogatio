@@ -4,8 +4,10 @@ import { connection } from "next/server";
 import { Suspense } from "react";
 import { ConteoFirmas } from "@/components/conteo-firmas";
 import { EnlaceBoton } from "@/components/enlace-boton";
+import { EnlaceEscrito } from "@/components/enlace-escrito";
 import { PorConstruir } from "@/components/por-construir";
 import { obtenerPeticion } from "@/lib/consultas";
+import { estadoEnvioVisible } from "@/lib/escrito-art8";
 
 const textoEstadoEnvio = {
   pendiente: "Pendiente: aún no se alcanza el umbral.",
@@ -58,6 +60,8 @@ async function ContenidoPeticion({ id }: { id: string }) {
         Firmar esta petición
       </EnlaceBoton>
 
+      <EnlaceEscrito id={peticion.id} conteo={conteo} />
+
       <dl className="grid gap-3 rounded-lg border p-4 text-sm">
         <div>
           <dt className="font-semibold">Raíz del registro</dt>
@@ -69,7 +73,7 @@ async function ContenidoPeticion({ id }: { id: string }) {
         </div>
         <div>
           <dt className="font-semibold">Estado del envío</dt>
-          <dd>{textoEstadoEnvio[envio.estado]}</dd>
+          <dd>{textoEstadoEnvio[estadoEnvioVisible(envio.estado, conteo)]}</dd>
         </div>
       </dl>
 
@@ -77,7 +81,6 @@ async function ContenidoPeticion({ id }: { id: string }) {
         titulo="Tablero del umbral"
         tareas={[
           "Mostrar el avance hacia el umbral y el desglose por distrito.",
-          "Al llegar al umbral, habilitar la generación del PDF del Art. 8 (simulado).",
         ]}
       />
     </article>

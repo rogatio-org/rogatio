@@ -6,6 +6,7 @@ import {
   camposDesdePeticion,
   copiasDelEscrito,
   escritoDisponible,
+  estadoEnvioVisible,
   firmantesFicticios,
   formatearFecha,
   periodoDeFirmas,
@@ -121,6 +122,14 @@ describe("escrito del Art. 8", () => {
   it("solo está disponible al llegar al umbral", () => {
     expect(escritoDisponible({ firmas: 49, umbral: 50 })).toBe(false);
     expect(escritoDisponible({ firmas: 50, umbral: 50 })).toBe(true);
+  });
+
+  it("marca el envío como generado al llegar al umbral", () => {
+    expect(estadoEnvioVisible("pendiente", { firmas: 49, umbral: 50 })).toBe("pendiente");
+    expect(estadoEnvioVisible("pendiente", { firmas: 50, umbral: 50 })).toBe("generado");
+    expect(estadoEnvioVisible("enviado_simulado", { firmas: 50, umbral: 50 })).toBe(
+      "enviado_simulado",
+    );
   });
 
   it("la marca de simulación es exacta", () => {
