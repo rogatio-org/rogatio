@@ -3,6 +3,7 @@ import { and, asc, count, eq } from "drizzle-orm";
 import { obtenerDb, type BaseDeDatos } from "@/db";
 import { firmas, personas, peticiones, raices } from "@/db/esquema";
 import { hojaDeFirma, idComprobante } from "./comprobante";
+import type { EstadoPeticion } from "./estado-peticion";
 import { raiz as calcularRaiz, type Hash } from "./merkle";
 
 type Transaccion = Parameters<Parameters<BaseDeDatos["transaction"]>[0]>[0];
@@ -42,11 +43,13 @@ export type ResultadoFirma =
       idComprobante: string;
       umbralAlcanzado: boolean;
     }
-  | { ok: false; motivo: "peticion_inexistente" | "peticion_cerrada" | "persona_inexistente" | "ya_firmo" };
+  | { ok: false; motivo: "peticion_cerrada"; estado: EstadoPeticion }
+  | { ok: false; motivo: "peticion_inexistente" | "persona_inexistente" | "ya_firmo" };
 
 /**
  * Agrega la firma de una persona ya verificada, calcula la raíz nueva y la guarda,
- * todo en una transacción. Si llega al umbral, la petición pasa a "umbral_alcanzado".
+ * todo en una transacción. Si llega al umbral, la petición pasa a "umbral_alcanzado"
+ * y deja de recibir firmas.
  * La elegibilidad por sección la revisa quien llama.
  */
 export async function registrarFirma(
@@ -61,8 +64,8 @@ export async function registrarFirma(
       .where(eq(peticiones.slug, slug))
       .for("update");
     if (!peticion) return { ok: false, motivo: "peticion_inexistente" } as const;
-    if (peticion.estado !== "abierta" && peticion.estado !== "umbral_alcanzado") {
-      return { ok: false, motivo: "peticion_cerrada" } as const;
+    if (peticion.estado !== "abierta") {
+      return { ok: false, motivo: "peticion_cerrada", estado: peticion.estado } as const;
     }
 
     const [persona] = await tx

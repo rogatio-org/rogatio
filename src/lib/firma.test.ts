@@ -130,6 +130,23 @@ describe.skipIf(!process.env.DATABASE_URL)("firmarPeticion", () => {
     expect(filas.map((e) => e.estado)).toEqual(["generado"]);
   });
 
+  it("tras el umbral rechaza firmas nuevas sin crear persona ni firma", async () => {
+    expect(await firmarPeticion(slug, datos(2, 4525))).toEqual({
+      tipo: "peticion_cerrada",
+      estado: "umbral_alcanzado",
+    });
+    const db = obtenerDb();
+    expect(await db.select().from(personas).where(eq(personas.curpHmac, hmacs[2]))).toHaveLength(0);
+    expect(await db.select().from(firmas).where(eq(firmas.peticionId, peticionId))).toHaveLength(2);
+  });
+
+  it("tras el umbral, quien ya firmó sigue viendo su comprobante", async () => {
+    expect(await firmarPeticion(slug, datos(0, 4523))).toEqual({
+      tipo: "ya_firmo",
+      idComprobante: `${slug}-1`,
+    });
+  });
+
   it("guarda nombre y CURP cifrados", async () => {
     const [persona] = await obtenerDb()
       .select()
