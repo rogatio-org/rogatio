@@ -32,14 +32,14 @@ La CDMX pertenece a la circunscripción 4. La lista del SITL muestra a los diput
 
 | Cargo | Unidad | Titular (2024-2027) | Evidencia |
 |---|---|---|---|
-| Diputado federal (LXVI) | Distrito federal 12 (la mayor parte de Cuauhtémoc, Centro Histórico) (cobertura por verificar) | Mónica Elizabeth Sandoval Hernández | SITL, Wikipedia |
-| Diputado federal (LXVI) | Distrito federal 2 (franja norte de Cuauhtémoc, parte de Gustavo A. Madero) (cobertura por verificar) | José Alberto Benavides Castañeda | SITL, Wikipedia |
-| Diputada local (III Legislatura) | Distrito local 9 (cobertura por verificar) | Iliana Ivón Sánchez Chávez | Congreso CDMX |
-| Diputada local (III Legislatura) | Distrito local 12 (cobertura por verificar) | Leonor Gómez Otegui | Congreso CDMX |
+| Diputado federal (LXVI) | Distrito federal 12 (300 secciones: centro y sur de Cuauhtémoc) | Mónica Elizabeth Sandoval Hernández | SITL, Wikipedia |
+| Diputado federal (LXVI) | Distrito federal 2 (89 secciones: franja norte de Cuauhtémoc; también parte de Gustavo A. Madero) | José Alberto Benavides Castañeda | SITL, Wikipedia |
+| Diputada local (III Legislatura) | Distrito local 9 (187 secciones) | Iliana Ivón Sánchez Chávez | Congreso CDMX |
+| Diputada local (III Legislatura) | Distrito local 12 (202 secciones) | Leonor Gómez Otegui | Congreso CDMX |
 | Alcaldesa | Cuauhtémoc | Alessandra Rojo de la Vega | Resultado del IECM (prensa) |
 | Concejales | Cuauhtémoc | 15 escaños (por verificar; población 545,884) | Congreso CDMX, Expansión |
 
-La evidencia de los distritos locales es indirecta. En 2024 el IECM recontó la votación de Cuauhtémoc en los consejos distritales locales 9 y 12. El equipo debe confirmar los distritos locales exactos con la cartografía del IECM.
+La cobertura de cada distrito sale de los catálogos del INE (corte de enero de 2026). La tabla por sección está en [data/ine/secciones-cuauhtemoc.csv](../../data/ine/secciones-cuauhtemoc.csv).
 
 ## 3. Correspondencia entre un firmante y sus representantes
 

@@ -171,7 +171,6 @@ def enrutar(peticion: Peticion) -> list[Destinatario]:
 - ¿Quién revisa durante el piloto las peticiones con la marca "competencia: por verificar": el equipo o un abogado voluntario?
 - ¿Rogatio copia a todos los representantes de todos los distritos de los firmantes, o solo a los distritos que superen una proporción mínima de firmantes?
 - ¿Enviamos al Concejo como órgano (a través de la alcaldía) o a cada concejal por nombre?
-- Para la demo, ¿limitamos las categorías a las filas verificadas de la alcaldía (baches, alumbrado, basura, mercados, parques)?
 - ¿Qué normas dan competencia sobre Metro, Metrobús, SACMEX y SOBSE? Un abogado debe confirmar los artículos exactos antes del lanzamiento.
 
 ## Fuentes

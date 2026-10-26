@@ -136,7 +136,7 @@ La petición del Art. 8 lleva los nombres de los firmantes, porque la autoridad 
 |---|---|---|
 | Demo (2026-10-26) | Alcaldía Cuauhtémoc: 389 secciones, 64 unidades territoriales | INE simulado, peticiones, registro, comprobantes, tablero, PDF del Art. 8 |
 | Piloto | Cuauhtémoc | Peticiones reales, entrega real, respuestas reales |
-| Producto | Toda la CDMX: 16 alcaldías, 5,535 secciones | OCR de fotografía, enrutamiento para todas las categorías, tarea de actualización de representantes |
+| Producto | Toda la CDMX: 16 alcaldías, 5,589 secciones | OCR de fotografía, enrutamiento para todas las categorías, tarea de actualización de representantes |
 | Después | Otros estados | Enrutamiento municipal (CPEUM Art. 115), congresos estatales |
 
 Los conteos de secciones usan datos abiertos de 2020 (cifras vigentes por verificar).
@@ -165,7 +165,6 @@ Ver también [Transparencia](transparencia.md).
 
 - ¿Quién firma la petición del Art. 8 como peticionario legal: el autor, un representante legal o cada firmante?
 - ¿El correo electrónico a una dirección institucional es una entrega válida del Art. 8, o presentamos en papel?
-- ¿Qué umbral usa la demo de Cuauhtémoc (propuesta: 50)?
 - ¿Basta un consentimiento con un clic para datos sensibles bajo la LFPDPPP?
 - ¿Quién modera las peticiones y revisa la competencia dudosa durante el piloto?
 
