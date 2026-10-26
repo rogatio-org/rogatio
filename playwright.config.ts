@@ -5,6 +5,8 @@ const urlExterna = process.env.PLAYWRIGHT_BASE_URL;
 
 export default defineConfig({
   testDir: "e2e",
+  // El guion del video tiene su propia configuración (npm run demo:video).
+  testIgnore: "demo/**",
   // La base de datos es compartida: una prueba a la vez.
   workers: 1,
   retries: process.env.CI ? 1 : 0,

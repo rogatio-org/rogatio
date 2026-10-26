@@ -1,6 +1,6 @@
 // Semilla y reinicio de la demo (2026-10-26). Idempotente. Solo datos ficticios.
-// La semilla de secciones electorales de Cuauhtémoc es un issue aparte.
-import { createHash } from "node:crypto";
+// Carga las secciones electorales de Cuauhtémoc y unas de Benito Juárez (data/ine) con sus distritos.
+import { readFileSync } from "node:fs";
 import { and, eq, gt } from "drizzle-orm";
 import { cerrarDb, obtenerDb } from "../src/db";
 import {
@@ -10,9 +10,13 @@ import {
   personas,
   peticiones,
   raices,
+  seccionesElectorales,
 } from "../src/db/esquema";
 import { cifrar } from "../src/db/cifrado";
 import { curpHmac } from "../src/db/seudonimo";
+import { hojaDeFirma } from "../src/lib/comprobante";
+import { aHex } from "../src/lib/merkle";
+import { guardarRaiz } from "../src/lib/registro";
 import demo from "../data/fixtures/peticion-demo.json";
 
 try {
@@ -22,8 +26,8 @@ try {
 const UMBRAL = 50;
 const FIRMAS_PRECARGADAS = 49;
 const ENTIDAD_CDMX = 9;
-// Sección ficticia hasta que exista la semilla de secciones.
-const SECCION_FICTICIA = 9999;
+// Acuerdo de la distritación vigente (ver docs/arquitectura/01-jurisdicciones.md, secc. 3).
+const DISTRITACION = "INE/CG875/2022";
 // La petición sale del mismo fixture que usa la UI.
 const { id: SLUG, titulo: TITULO, texto: TEXTO, categoria: CATEGORIA } = demo.peticion;
 
@@ -37,14 +41,6 @@ const llaveHmac = requerida("ROGATIO_LLAVE_HMAC");
 const llaveCifrado = Buffer.from(requerida("ROGATIO_LLAVE_CIFRADO"), "hex");
 if (llaveCifrado.length !== 32) {
   throw new Error("ROGATIO_LLAVE_CIFRADO debe ser 32 bytes en hex (64 caracteres)");
-}
-
-// Por construir en la mesa: formato definitivo de la hoja (RFC 6962). Esto es un marcador.
-function hojaMarcador(peticionId: number, hmac: string, secuencia: number): Buffer {
-  return createHash("sha256")
-    .update(Buffer.from([0]))
-    .update(`${peticionId}:${hmac}:${secuencia}`)
-    .digest();
 }
 
 const db = obtenerDb();
@@ -67,12 +63,97 @@ async function jurisdiccion(
   return fila.id;
 }
 
+type FilaSeccion = {
+  entidad: number;
+  municipio: number;
+  seccion: number;
+  distritoFederal: number;
+  distritoLocal: number;
+};
+
+// Columnas: entidad,municipio,seccion,distrito_federal,distrito_local.
+function leerSecciones(ruta: string): FilaSeccion[] {
+  const [, ...filas] = readFileSync(ruta, "utf8").trim().split(/\r?\n/);
+  return filas.map((fila) => {
+    const [entidad, municipio, seccion, distritoFederal, distritoLocal] = fila
+      .split(",")
+      .map(Number);
+    return { entidad, municipio, seccion, distritoFederal, distritoLocal };
+  });
+}
+
+const dosDigitos = (n: number) => String(n).padStart(2, "0");
+
+// Códigos estables de los nodos electorales:
+//   circunscripción 'C-4', distrito federal 'DF-09-02', distrito local 'DL-09-12'
+//   (entidad y número de distrito con dos dígitos).
+async function cargarSecciones(
+  filas: FilaSeccion[],
+  alcaldiaId: number,
+  entidadId: number,
+  circunscripcionId: number,
+) {
+  const distritos = new Map<string, number>();
+  async function distrito(
+    nivel: "distrito_federal" | "distrito_local",
+    entidad: number,
+    n: number,
+  ) {
+    const prefijo = nivel === "distrito_federal" ? "DF" : "DL";
+    const codigo = `${prefijo}-${dosDigitos(entidad)}-${dosDigitos(n)}`;
+    let id = distritos.get(codigo);
+    if (id === undefined) {
+      const nombre = `Distrito ${nivel === "distrito_federal" ? "federal" : "local"} ${n} de la Ciudad de México`;
+      id = await jurisdiccion(
+        nivel,
+        codigo,
+        nombre,
+        nivel === "distrito_federal" ? circunscripcionId : entidadId,
+      );
+      distritos.set(codigo, id);
+    }
+    return id;
+  }
+
+  const valores = [];
+  for (const fila of filas) {
+    valores.push({
+      entidad: fila.entidad,
+      seccion: fila.seccion,
+      alcaldiaId,
+      distritoFederalId: await distrito("distrito_federal", fila.entidad, fila.distritoFederal),
+      distritoLocalId: await distrito("distrito_local", fila.entidad, fila.distritoLocal),
+      distritacion: DISTRITACION,
+    });
+  }
+  await db.insert(seccionesElectorales).values(valores).onConflictDoNothing();
+}
+
 async function principal() {
   const federacion = await jurisdiccion("federacion", "MX", "Estados Unidos Mexicanos", null);
   const cdmx = await jurisdiccion("entidad", "09", "Ciudad de México", federacion);
+  // Toda la CDMX está en la 4.ª circunscripción plurinominal.
+  const circunscripcion = await jurisdiccion(
+    "circunscripcion",
+    "C-4",
+    "Cuarta circunscripción",
+    federacion,
+  );
   const cuauhtemoc = await jurisdiccion("alcaldia", "09-015", "Cuauhtémoc", cdmx, {
     umbral: UMBRAL,
   });
+
+  const seccionesCuauhtemoc = leerSecciones("data/ine/secciones-cuauhtemoc.csv");
+  await cargarSecciones(seccionesCuauhtemoc, cuauhtemoc, cdmx, circunscripcion);
+
+  // Secciones de otra alcaldía para probar el rechazo de quien no vive en Cuauhtémoc.
+  const benitoJuarez = await jurisdiccion("alcaldia", "09-014", "Benito Juárez", cdmx);
+  await cargarSecciones(
+    leerSecciones("data/ine/secciones-otra-alcaldia.csv"),
+    benitoJuarez,
+    cdmx,
+    circunscripcion,
+  );
 
   let [peticion] = await db
     .select()
@@ -106,6 +187,9 @@ async function principal() {
 
   for (let i = 1; i <= FIRMAS_PRECARGADAS; i++) {
     const n = String(i).padStart(2, "0");
+    // Reparte a las personas a lo largo del CSV para cubrir todos los distritos.
+    const { seccion } =
+      seccionesCuauhtemoc[Math.floor(((i - 1) * seccionesCuauhtemoc.length) / FIRMAS_PRECARGADAS)];
     // CURP inválidas a propósito: solo alimentan el HMAC.
     const curp = `XEXX000101HDFXXX${n}`;
     const hmac = curpHmac(curp, llaveHmac);
@@ -117,27 +201,29 @@ async function principal() {
         nombreCifrado: cifrar(`Persona ficticia ${n}`, llaveCifrado),
         curpCifrada: cifrar(curp, llaveCifrado),
         entidad: ENTIDAD_CDMX,
-        seccion: SECCION_FICTICIA,
+        seccion,
       })
-      .onConflictDoNothing();
+      .onConflictDoUpdate({ target: personas.curpHmac, set: { entidad: ENTIDAD_CDMX, seccion } });
     const [persona] = await db
       .select({ id: personas.id })
       .from(personas)
       .where(eq(personas.curpHmac, hmac));
 
+    const hoja = Buffer.from(await hojaDeFirma({ slug: SLUG, secuencia: i, curpHmac: hmac }));
     await db
       .insert(firmas)
-      .values({
-        peticionId: peticion.id,
-        personaId: persona.id,
-        secuencia: i,
-        hoja: hojaMarcador(peticion.id, hmac, i),
-      })
-      .onConflictDoNothing();
+      .values({ peticionId: peticion.id, personaId: persona.id, secuencia: i, hoja })
+      .onConflictDoUpdate({
+        target: [firmas.peticionId, firmas.secuencia],
+        set: { personaId: persona.id, hoja },
+      });
   }
 
+  // Raíz publicada de las 49 firmas: la misma en cada corrida.
+  const { raiz } = await guardarRaiz(db, peticion.id);
+
   console.log(
-    `Semilla lista: petición ${peticion.id}, ${FIRMAS_PRECARGADAS} de ${UMBRAL} firmas.`,
+    `Semilla lista: petición ${peticion.id}, ${FIRMAS_PRECARGADAS} de ${UMBRAL} firmas, raíz ${aHex(raiz)}.`,
   );
 }
 

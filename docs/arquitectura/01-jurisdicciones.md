@@ -71,6 +71,7 @@ Notas:
 - La lista de secciones con su distrito federal y su distrito local está en [data/ine/secciones-cuauhtemoc.csv](../../data/ine/secciones-cuauhtemoc.csv). Sale del Catálogo de Secciones con Distritos Electorales Locales del INE (CSDEL, [cartografia.ine.mx](https://cartografia.ine.mx/), corte de enero de 2026). El distrito federal coincide con el Catálogo de información geoelectoral (EDMSLM).
 - Los polígonos de esas 389 secciones están en [data/ine/secciones-cuauhtemoc.geojson](../../data/ine/secciones-cuauhtemoc.geojson) (WGS 84, 217 KB). Salen del Marco Geográfico Seccional por entidad del INE (MGS_EF, Shapefile del 2025-02-18). Sus distritos coinciden con el CSV. Sirven para el mapa de firmas; la demo no los guarda en la base.
 - Los números de secciones vienen del catálogo geoelectoral del INE con fecha de corte de enero de 2026.
+- Para probar el rechazo, la demo carga 4 secciones de Benito Juárez (municipio 14): 4269 y 4270 (distrito federal 15, distrito local 17), y 4337 y 4338 (distrito federal 15, distrito local 18). Están en [data/ine/secciones-otra-alcaldia.csv](../../data/ine/secciones-otra-alcaldia.csv). Salen del mismo CSDEL del INE (corte de enero de 2026). El distrito federal coincide con el EDMSLM.
 
 ### La credencial del INE da la llave de unión
 
