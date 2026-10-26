@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { connection } from "next/server";
+import { Suspense } from "react";
 import { ConteoFirmas } from "@/components/conteo-firmas";
 import { EnlaceBoton } from "@/components/enlace-boton";
 import { PorConstruir } from "@/components/por-construir";
-import { obtenerPeticionDemo, peticionDemo } from "@/lib/peticion-demo";
+import { obtenerPeticion } from "@/lib/consultas";
 
 const textoEstadoEnvio = {
   pendiente: "Pendiente: aún no se alcanza el umbral.",
@@ -12,21 +14,29 @@ const textoEstadoEnvio = {
   fallido: "No se pudo generar el envío.",
 } as const;
 
-export function generateStaticParams() {
-  return [{ id: peticionDemo.peticion.id }];
-}
-
+// Sin generateStaticParams: el conteo y la raíz se leen de la base en cada visita, nunca en el build.
 export async function generateMetadata({
   params,
 }: PageProps<"/peticion/[id]">): Promise<Metadata> {
   const { id } = await params;
-  const datos = obtenerPeticionDemo(id);
+  await connection();
+  const datos = await obtenerPeticion(id);
   return { title: datos ? `${datos.peticion.titulo} · Rogatio` : "Rogatio" };
 }
 
-export default async function Peticion({ params }: PageProps<"/peticion/[id]">) {
-  const { id } = await params;
-  const datos = obtenerPeticionDemo(id);
+export default function Peticion({ params }: PageProps<"/peticion/[id]">) {
+  return (
+    <Suspense fallback={<p className="text-muted-foreground">Cargando petición…</p>}>
+      {params.then(({ id }) => (
+        <ContenidoPeticion id={id} />
+      ))}
+    </Suspense>
+  );
+}
+
+async function ContenidoPeticion({ id }: { id: string }) {
+  await connection();
+  const datos = await obtenerPeticion(id);
   if (!datos) notFound();
 
   const { peticion, conteo, raiz, envio } = datos;
@@ -66,7 +76,6 @@ export default async function Peticion({ params }: PageProps<"/peticion/[id]">) 
       <PorConstruir
         titulo="Tablero del umbral"
         tareas={[
-          "Leer el conteo de firmas desde la base de datos en lugar del fixture.",
           "Mostrar el avance hacia el umbral y el desglose por distrito.",
           "Al llegar al umbral, habilitar la generación del PDF del Art. 8 (simulado).",
         ]}

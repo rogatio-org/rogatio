@@ -1,6 +1,6 @@
 import datos from "../../data/fixtures/peticion-demo.json";
 
-// Contrato de datos de la petición de la demo. Aún no se lee la base de datos.
+// Contrato de datos de la petición. La página la lee de la base con obtenerPeticion (src/lib/consultas.ts).
 
 // Mismos valores que el enum estado_envio de src/db/esquema.ts.
 export type EstadoEnvio = "pendiente" | "generado" | "enviado_simulado" | "fallido";
