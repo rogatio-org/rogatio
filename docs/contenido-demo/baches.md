@@ -4,7 +4,7 @@ Borrador. La mesa lo revisa (#30) y lo congela (#31). Lo marcado "por verificar"
 
 Archivos para código y pruebas e2e:
 
-- `data/fixtures/peticion-baches.json`: fixture con la petición de baches (mismo formato que `peticion-demo.json`).
+- `data/fixtures/peticion-demo.json`: la petición de baches. La semilla y la UI leen este archivo. El id sigue siendo `peticion-demo`.
 - `data/fixtures/escrito-art8-baches.txt`: texto del escrito con campos entre llaves (#31). Va a `src/lib/escrito-art8.ts` (#37).
 
 ## Petición final (#12, #13)
