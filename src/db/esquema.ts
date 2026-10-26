@@ -151,6 +151,10 @@ export const raices = pgTable(
       .references(() => peticiones.id),
     tamano: integer("tamano").notNull(),
     raiz: bytea("raiz").notNull(),
+    // Prueba de OpenTimestamps (.ots) de la raíz. Nula hasta que responde un calendario.
+    ots: bytea("ots"),
+    // Bloque de Bitcoin que ancla la raíz. Nulo mientras la prueba está pendiente.
+    bloqueBitcoin: integer("bloque_bitcoin"),
     creadaEn: timestamp("creada_en", { withTimezone: true })
       .notNull()
       .defaultNow(),

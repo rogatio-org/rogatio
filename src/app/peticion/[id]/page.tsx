@@ -67,6 +67,16 @@ async function ContenidoPeticion({ id }: { id: string }) {
           <dt className="font-semibold">Raíz del registro</dt>
           <dd className="font-mono break-all">{raiz.hash}</dd>
         </div>
+        {raiz.tamano_arbol > 0 && (
+          <div>
+            <dt className="font-semibold">Anclaje en Bitcoin</dt>
+            <dd>
+              <a href={`/peticion/${peticion.id}/ots/${raiz.tamano_arbol}`} className="underline">
+                Descargar prueba de OpenTimestamps (.ots)
+              </a>
+            </dd>
+          </div>
+        )}
         <div>
           <dt className="font-semibold">Firmas en el árbol</dt>
           <dd>{raiz.tamano_arbol}</dd>

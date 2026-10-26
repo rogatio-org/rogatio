@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useId, useState, type ChangeEvent, type FormEvent, type ReactNode } from "react";
 import { Button } from "@/components/ui/button";
+import type { ResultadoOts } from "@/lib/opentimestamps";
 import { verificarTexto, type ResultadoVerificacion } from "@/lib/verificacion";
 import { cn } from "@/lib/utils";
 
@@ -14,6 +15,7 @@ export function VerificadorComprobante() {
   const id = useId();
   const [texto, setTexto] = useState("");
   const [raizPublicada, setRaizPublicada] = useState("");
+  const [ots, setOts] = useState<Uint8Array | undefined>();
   const [resultado, setResultado] = useState<ResultadoVerificacion | null>(null);
   const [verificando, setVerificando] = useState(false);
 
@@ -28,11 +30,21 @@ export function VerificadorComprobante() {
     }
   }
 
+  async function cargarOts(evento: ChangeEvent<HTMLInputElement>) {
+    const archivo = evento.target.files?.[0];
+    setResultado(null);
+    try {
+      setOts(archivo ? new Uint8Array(await archivo.arrayBuffer()) : undefined);
+    } catch {
+      setOts(undefined);
+    }
+  }
+
   async function verificar(evento: FormEvent) {
     evento.preventDefault();
     setVerificando(true);
     try {
-      setResultado(await verificarTexto(texto, raizPublicada));
+      setResultado(await verificarTexto(texto, raizPublicada, ots));
     } finally {
       setVerificando(false);
     }
@@ -89,6 +101,22 @@ export function VerificadorComprobante() {
             comprobante.
           </p>
         </div>
+        <div className="space-y-2">
+          <label htmlFor={`${id}-ots`} className="block font-semibold">
+            Prueba de OpenTimestamps (.ots, opcional)
+          </label>
+          <input
+            id={`${id}-ots`}
+            type="file"
+            accept=".ots"
+            onChange={cargarOts}
+            className="block w-full text-sm file:mr-3 file:rounded-lg file:border file:bg-muted file:px-3 file:py-1.5"
+          />
+          <p className="text-sm text-muted-foreground">
+            Descárgala de la página de tu comprobante. Prueba que la raíz existía en la fecha de un
+            bloque de Bitcoin.
+          </p>
+        </div>
         <Button
           type="submit"
           size="lg"
@@ -100,9 +128,13 @@ export function VerificadorComprobante() {
       </form>
 
       {resultado && <Resultado resultado={resultado} />}
+      {resultado && resultado.estado !== "error" && resultado.anclaje && (
+        <Anclaje anclaje={resultado.anclaje} />
+      )}
 
       <p className="text-sm text-muted-foreground">
-        La verificación ocurre en tu navegador. No se envía nada a Rogatio.
+        La verificación ocurre en tu navegador. No se envía nada a Rogatio. Para revisar el .ots,
+        tu navegador consulta el bloque en blockstream.info.
       </p>
     </div>
   );
@@ -145,6 +177,52 @@ function Resultado({ resultado }: { resultado: ResultadoVerificacion }) {
         : "Los datos del comprobante no llevan a su raíz: el comprobante fue alterado o está dañado. Descárgalo otra vez desde la página de tu comprobante."}
     </Aviso>
   );
+}
+
+const formatoFecha = new Intl.DateTimeFormat("es-MX", {
+  dateStyle: "long",
+  timeStyle: "short",
+  timeZone: "America/Mexico_City",
+});
+
+function Anclaje({ anclaje }: { anclaje: ResultadoOts }) {
+  switch (anclaje.estado) {
+    case "anclada":
+      return (
+        <Aviso tono="valido" titulo="Anclada en Bitcoin">
+          La raíz del comprobante está en el bloque {anclaje.altura} de Bitcoin, del{" "}
+          {formatoFecha.format(anclaje.fecha)}. Nadie pudo crearla ni cambiarla después de esa
+          fecha.
+        </Aviso>
+      );
+    case "pendiente":
+      return (
+        <Aviso tono="error" titulo="Anclaje pendiente">
+          La prueba aún no llega a Bitcoin. Tarda unas horas. Descarga otra vez el .ots desde la
+          página de tu comprobante más tarde.
+        </Aviso>
+      );
+    case "sin_consulta":
+      return (
+        <Aviso tono="error" titulo="No pudimos consultar el bloque">
+          Compara a mano la raíz de Merkle del bloque {anclaje.altura} con{" "}
+          <code className="font-mono break-all">{anclaje.raizMerkle}</code>.
+        </Aviso>
+      );
+    case "no_coincide":
+      return (
+        <Aviso tono="no_valido" titulo="El .ots es de otra raíz">
+          La prueba de OpenTimestamps no corresponde a la raíz de este comprobante. Descarga el .ots
+          desde la página de tu comprobante.
+        </Aviso>
+      );
+    case "no_valido":
+      return (
+        <Aviso tono="no_valido" titulo="Prueba .ots no válida">
+          {anclaje.motivo}. Descarga el .ots otra vez desde la página de tu comprobante.
+        </Aviso>
+      );
+  }
 }
 
 const tonos = {

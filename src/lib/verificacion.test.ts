@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { crearComprobante, hojaDeFirma } from "./comprobante";
-import { pruebaDeInclusion, raiz } from "./merkle";
+import { deHex, pruebaDeInclusion, raiz } from "./merkle";
+import { escribirArchivoOts } from "./opentimestamps";
 import { verificarTexto } from "./verificacion";
 
 async function comprobanteDeMuestra() {
@@ -75,5 +76,27 @@ describe("verificarTexto", () => {
     expect(await verificarTexto("esto no es json")).toEqual({ estado: "error", error: "no_es_json" });
     expect(await verificarTexto("[]")).toEqual({ estado: "error", error: "forma_invalida" });
     expect(await verificarTexto('{"version":1}')).toEqual({ estado: "error", error: "forma_invalida" });
+  });
+
+  it("revisa el .ots contra la raíz del comprobante", async () => {
+    const c = await comprobanteDeMuestra();
+    const texto = JSON.stringify(c);
+    const pendiente = {
+      atestaciones: [{ tipo: "pendiente" as const, calendario: "https://a.example" }],
+      ramas: [],
+    };
+
+    const propio = await verificarTexto(texto, undefined, escribirArchivoOts(deHex(c.raiz), pendiente), null);
+    expect(propio.estado === "valido" && propio.anclaje).toEqual({
+      estado: "pendiente",
+      calendarios: ["https://a.example"],
+    });
+
+    const ajeno = await verificarTexto(texto, undefined, escribirArchivoOts(deHex(alterar(c.raiz)), pendiente), null);
+    // El comprobante sigue válido; solo el .ots no corresponde.
+    expect(ajeno.estado === "valido" && ajeno.anclaje).toEqual({ estado: "no_coincide" });
+
+    const sinOts = await verificarTexto(texto);
+    expect(sinOts.estado === "valido" && sinOts.anclaje).toBeNull();
   });
 });

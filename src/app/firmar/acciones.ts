@@ -1,6 +1,8 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { after } from "next/server";
+import { anclarRaices } from "@/lib/anclaje";
 import { validarDatosFirma, type EstadoFirma } from "@/lib/datos-firma";
 import { firmarPeticion } from "@/lib/firma";
 
@@ -31,6 +33,10 @@ export async function firmar(
     return { tipo: "error" };
   }
 
-  if (resultado.tipo === "firmada") redirect(`/comprobante/${resultado.idComprobante}`);
+  if (resultado.tipo === "firmada") {
+    // La raíz nueva se sella en OpenTimestamps después de responder, sin hacer esperar a la persona.
+    after(() => anclarRaices({ slug, actualizarPendientes: false }));
+    redirect(`/comprobante/${resultado.idComprobante}`);
+  }
   return resultado;
 }

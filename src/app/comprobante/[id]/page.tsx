@@ -35,7 +35,8 @@ async function ContenidoComprobante({ id }: { id: string }) {
   const datos = await obtenerComprobante(id);
   if (!datos) notFound();
 
-  const { comprobante, tituloPeticion, firmadaEn } = datos;
+  const { comprobante, tituloPeticion, firmadaEn, bloqueBitcoin } = datos;
+  const urlOts = `/peticion/${comprobante.peticion}/ots/${comprobante.tamano}`;
 
   return (
     <div className="space-y-6">
@@ -77,6 +78,17 @@ async function ContenidoComprobante({ id }: { id: string }) {
         <div>
           <dt className="font-semibold">Firmas en el árbol</dt>
           <dd>{comprobante.tamano}</dd>
+        </div>
+        <div>
+          <dt className="font-semibold">Anclaje en Bitcoin</dt>
+          <dd>
+            {bloqueBitcoin === null
+              ? "Pendiente. La raíz se envió a OpenTimestamps y se ancla en Bitcoin en unas horas."
+              : `Anclada en el bloque ${bloqueBitcoin}.`}{" "}
+            <a href={urlOts} className="underline">
+              Descargar prueba (.ots)
+            </a>
+          </dd>
         </div>
       </dl>
 

@@ -12,6 +12,7 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:seed": "tsx scripts/semilla.ts",
+    "db:anclar": "tsx scripts/anclar-raices.ts",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "demo:video": "playwright test -c e2e/demo/playwright.demo.config.ts"

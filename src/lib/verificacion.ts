@@ -1,5 +1,7 @@
-// Verificación del comprobante en el navegador. Sin llamadas al servidor.
+// Verificación del comprobante en el navegador. Sin llamadas al servidor de Rogatio:
+// para revisar el anclaje en Bitcoin solo se consulta un explorador público de bloques.
 import { verificarComprobante, type Comprobante } from "./comprobante";
+import { consultarBlockstream, verificarOts, type ConsultaBloque, type ResultadoOts } from "./opentimestamps";
 
 export type ErrorLectura = "no_es_json" | "forma_invalida";
 
@@ -11,6 +13,8 @@ export type ResultadoVerificacion =
       inclusionValida: boolean;
       // null si no se dio una raíz publicada para comparar.
       coincideRaizPublicada: boolean | null;
+      // null si no se dio una prueba de OpenTimestamps (.ots).
+      anclaje: ResultadoOts | null;
     }
   | { estado: "error"; error: ErrorLectura };
 
@@ -59,10 +63,15 @@ export function leerComprobante(
   };
 }
 
-/** Recalcula la raíz y, si se da, la compara con la raíz publicada en la petición. */
+/**
+ * Recalcula la raíz y, si se da, la compara con la raíz publicada en la petición.
+ * Si se da un .ots, revisa que selle la raíz del comprobante y en qué bloque de Bitcoin.
+ */
 export async function verificarTexto(
   texto: string,
   raizPublicada?: string,
+  ots?: Uint8Array,
+  consultarBloque: ConsultaBloque | null = consultarBlockstream,
 ): Promise<ResultadoVerificacion> {
   const lectura = leerComprobante(texto);
   if (!lectura.ok) return { estado: "error", error: lectura.error };
@@ -72,11 +81,13 @@ export async function verificarTexto(
   const coincideRaizPublicada = publicada ? publicada === comprobante.raiz : null;
   const inclusionValida = await verificarComprobante(comprobante);
   const valido = inclusionValida && coincideRaizPublicada !== false;
+  const anclaje = ots ? await verificarOts(ots, comprobante.raiz, consultarBloque) : null;
 
   return {
     estado: valido ? "valido" : "no_valido",
     comprobante,
     inclusionValida,
     coincideRaizPublicada,
+    anclaje,
   };
 }
