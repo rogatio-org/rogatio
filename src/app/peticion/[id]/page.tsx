@@ -3,18 +3,13 @@ import { notFound } from "next/navigation";
 import { connection } from "next/server";
 import { Suspense } from "react";
 import { ConteoFirmas } from "@/components/conteo-firmas";
+import { DesgloseDistritos } from "@/components/desglose-distritos";
 import { EnlaceBoton } from "@/components/enlace-boton";
 import { EnlaceEscrito } from "@/components/enlace-escrito";
-import { PorConstruir } from "@/components/por-construir";
+import { AvisoUmbral, EstadoEnvio } from "@/components/estado-umbral";
 import { obtenerPeticion } from "@/lib/consultas";
+import { obtenerDesglosePorDistrito } from "@/lib/desglose";
 import { estadoEnvioVisible } from "@/lib/escrito-art8";
-
-const textoEstadoEnvio = {
-  pendiente: "Pendiente: aún no se alcanza el umbral.",
-  generado: "Petición del Art. 8 generada.",
-  enviado_simulado: "Enviada (simulación).",
-  fallido: "No se pudo generar el envío.",
-} as const;
 
 // Sin generateStaticParams: el conteo y la raíz se leen de la base en cada visita, nunca en el build.
 export async function generateMetadata({
@@ -38,7 +33,10 @@ export default function Peticion({ params }: PageProps<"/peticion/[id]">) {
 
 async function ContenidoPeticion({ id }: { id: string }) {
   await connection();
-  const datos = await obtenerPeticion(id);
+  const [datos, desglose] = await Promise.all([
+    obtenerPeticion(id),
+    obtenerDesglosePorDistrito(id),
+  ]);
   if (!datos) notFound();
 
   const { peticion, conteo, raiz, envio } = datos;
@@ -53,6 +51,8 @@ async function ContenidoPeticion({ id }: { id: string }) {
       </header>
 
       <p className="leading-relaxed">{peticion.texto}</p>
+
+      <AvisoUmbral conteo={conteo} />
 
       <ConteoFirmas conteo={conteo} />
 
@@ -73,16 +73,16 @@ async function ContenidoPeticion({ id }: { id: string }) {
         </div>
         <div>
           <dt className="font-semibold">Estado del envío</dt>
-          <dd>{textoEstadoEnvio[estadoEnvioVisible(envio.estado, conteo)]}</dd>
+          <dd>
+            <EstadoEnvio
+              envio={{ ...envio, estado: estadoEnvioVisible(envio.estado, conteo) }}
+              conteo={conteo}
+            />
+          </dd>
         </div>
       </dl>
 
-      <PorConstruir
-        titulo="Tablero del umbral"
-        tareas={[
-          "Mostrar el avance hacia el umbral y el desglose por distrito.",
-        ]}
-      />
+      <DesgloseDistritos desglose={desglose} />
     </article>
   );
 }
