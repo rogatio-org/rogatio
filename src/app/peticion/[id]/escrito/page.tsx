@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 import { connection } from "next/server";
 import { Suspense, type ReactNode } from "react";
@@ -15,7 +14,6 @@ import {
   llenarEscrito,
   type EscritoLleno,
 } from "@/lib/escrito-art8";
-import { firmantesPorDistritoLocal } from "@/lib/escrito-consultas";
 import { datosEscritoDe } from "@/lib/peticion-demo";
 
 export const metadata: Metadata = { title: "Escrito del Art. 8 · Rogatio" };
@@ -55,19 +53,13 @@ async function ContenidoEscrito({ id }: { id: string }) {
     );
   }
 
-  const [distritos, encabezados] = await Promise.all([firmantesPorDistritoLocal(id), headers()]);
-  const host = encabezados.get("x-forwarded-host") ?? encabezados.get("host") ?? "localhost";
-  const protocolo = encabezados.get("x-forwarded-proto") ?? "http";
-
   let lleno: EscritoLleno;
   try {
     lleno = llenarEscrito(
       camposDesdePeticion({
         peticion: datos,
         escrito,
-        distritos,
         fecha: new Date(),
-        urlVerificacion: `${protocolo}://${host}/verificar`,
       }),
       firmantesFicticios(id, datos.conteo.firmas),
     );
@@ -88,7 +80,7 @@ async function ContenidoEscrito({ id }: { id: string }) {
           Simulación: Rogatio no envía este escrito. Los datos de quien firma como representante
           común y los nombres del anexo son ficticios.
           {ESTADO_PLANTILLA === "provisional" &&
-            " La plantilla es un borrador provisional, pendiente de validación legal."}
+            " La plantilla es el borrador provisional de baches, pendiente de congelar (#31) y de validación legal. Lo marcado [POR VERIFICAR] sigue pendiente."}
         </p>
         <div className="flex flex-wrap gap-3">
           <BotonImprimir />

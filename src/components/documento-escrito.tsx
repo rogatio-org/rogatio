@@ -9,6 +9,8 @@ export function DocumentoEscrito({ escrito }: { escrito: EscritoLleno }) {
   const seccion = (id: string) => secciones.find((s) => s.id === id);
   const cuerpo = secciones.filter((s) => s.id !== "anexo");
   const anexo = seccion("anexo");
+  // Primera línea: encabezado del anexo. Segunda: raíz del registro de firmas.
+  const [tituloAnexo, raizAnexo] = anexo?.texto.split("\n") ?? [];
 
   return (
     <>
@@ -56,7 +58,7 @@ export function DocumentoEscrito({ escrito }: { escrito: EscritoLleno }) {
                         ? "font-bold whitespace-pre-line"
                         : id === "lugar_fecha"
                           ? "text-right"
-                          : id === "firma"
+                          : id === "firma" || id === "atentamente"
                             ? "pt-10 text-center whitespace-pre-line break-inside-avoid"
                             : id === "copias"
                               ? "text-sm"
@@ -71,11 +73,12 @@ export function DocumentoEscrito({ escrito }: { escrito: EscritoLleno }) {
 
               {anexo && (
                 <section className="mt-8 rounded-lg border bg-white p-6 font-serif text-sm text-neutral-950 sm:p-10 print:mt-0 print:break-before-page print:rounded-none print:border-0 print:p-0">
-                  <h2 className="mb-3 text-center font-bold">{anexo.titulo}</h2>
+                  <h2 className="mb-3 text-center font-bold">{tituloAnexo}</h2>
                   <p className="mb-3 text-justify">
                     Personas firmantes con su comprobante de firma. Cada comprobante se verifica en
                     la página de verificación de Rogatio.
                   </p>
+                  <p className="mb-3 font-mono text-xs wrap-anywhere">{raizAnexo}</p>
                   <table className="w-full border-collapse">
                     <thead>
                       <tr className="border-b text-left">

@@ -30,16 +30,12 @@
     "acuse_hash": null
   },
   "escrito": {
-    "_aviso": "Plantilla provisional: borrador base de #26, pendiente de congelar (#31). Representante, domicilio y correo son ficticios. Cargo y Oficialía de Partes por confirmar (#27).",
+    "_aviso": "Plantilla provisional: borrador de baches de #31 (data/fixtures/escrito-art8-baches.txt), pendiente de congelar. Representante, domicilio, correo y firma son ficticios o están por confirmar.",
     "representante_comun": "Persona Ficticia Uno",
     "domicilio_notificaciones": "Calle Ficticia 123, interior 4, colonia Ejemplo Centro, alcaldía Cuauhtémoc, C.P. 00000, Ciudad de México",
     "correo_notificaciones": "notificaciones@example.org",
-    "destinatario": "Persona titular de la Alcaldía Cuauhtémoc",
-    "oficialia": "Oficialía de Partes de la Alcaldía Cuauhtémoc, Aldama y Mina s/n, colonia Buenavista, C.P. 06350, Ciudad de México (por confirmar)",
-    "hechos": "En la colonia Ejemplo Centro hay luminarias apagadas en varias calles desde hace meses. Las calles quedan a oscuras por la noche.",
-    "puntos_petitorios": [
-      "Que la alcaldía repare las luminarias apagadas de la colonia Ejemplo Centro.",
-      "Que la alcaldía publique un calendario de mantenimiento del alumbrado público de la colonia."
-    ]
+    "acepta_notificaciones_electronicas": "Sí",
+    "personas_autorizadas": "(por confirmar)",
+    "firma_representante": "(firma por confirmar)"
   }
 }

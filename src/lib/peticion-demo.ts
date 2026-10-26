@@ -32,11 +32,11 @@ export type DatosEscrito = {
   representante_comun: string;
   domicilio_notificaciones: string;
   correo_notificaciones: string;
-  // Cargo, no nombre, hasta que legal lo confirme.
-  destinatario: string;
-  oficialia: string;
-  hechos: string;
-  puntos_petitorios: string[];
+  // "Sí" o "No". Ficticio hasta que lo decida quien firme.
+  acepta_notificaciones_electronicas: string;
+  // Ficticio o "(por confirmar)".
+  personas_autorizadas: string;
+  firma_representante: string;
 };
 
 export const peticionDemo = datos as PeticionDemo;
