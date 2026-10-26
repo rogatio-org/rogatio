@@ -17,8 +17,7 @@ Los tiempos son del video. Cada fila tiene el tiempo de su escena: no hay que de
 | 0:07 | Firmas por distrito | Y el Art. 8 de la Constitución obliga a la autoridad a responder por escrito. |
 | 0:13 | Mapa por sección, aviso de privacidad | Rogatio es código abierto para la participación ciudadana. Sirve desde una calle hasta el nivel federal. Este ejemplo es de la Alcaldía Cuauhtémoc. |
 | 0:21 | Credencial | Para firmar, se lee la credencial del INE. Su sección dice que vive en Cuauhtémoc. |
-| 0:29 | Confirmar | Confirma y firma. |
-| 0:32 | Comprobante 50 | Firma 50. Su comprobante no lleva su nombre ni su CURP. |
+| 0:29 | Confirmar, comprobante 50 | Cada petición fija su umbral de firmas, para darle más peso. El umbral se puede ajustar. Su comprobante no lleva su nombre ni su CURP. |
 | 0:37 | Verificar, válido | Cualquiera lo verifica en su navegador. Todas las firmas se resumen en un solo hash: si alguien cambia una, ese hash cambia. |
 | 0:46 | Umbral alcanzado | 50 de 50. Ese hash se ancla en Bitcoin con OpenTimestamps: nadie puede cambiar la fecha. |
 | 0:52 | Escrito del Art. 8 | Rogatio genera el escrito del Art. 8 para la alcaldía. El pueblo pregunta. La autoridad responde. |
