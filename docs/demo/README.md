@@ -2,7 +2,7 @@
 
 Grabado con el guion `e2e/demo/recorrido.spec.ts` sobre la build de producción. Solo datos ficticios.
 
-- `demo-60s.webm`: recorrido completo de la demo (57 s).
+- `demo-60s.webm`: recorrido completo de la demo (58 s).
 - `01-peticion.png`: petición con 49 de 50 firmas.
 - `02-desglose.png`: firmas por distrito local y federal.
 - `03-comprobante.png`: comprobante de la firma 50.
