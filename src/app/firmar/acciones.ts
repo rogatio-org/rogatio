@@ -10,6 +10,9 @@ export async function firmar(
   _previo: EstadoFirma,
   formData: FormData,
 ): Promise<EstadoFirma> {
+  // El consentimiento expreso se revisa también aquí, no solo en el formulario.
+  if (formData.get("consentimiento") !== "si") return { tipo: "sin_consentimiento" };
+
   const validacion = validarDatosFirma({
     nombre: formData.get("nombre"),
     curp: formData.get("curp"),

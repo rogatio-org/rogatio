@@ -22,6 +22,7 @@ export type EstadoFirma =
       alcaldiaSeccion: string | null;
       jurisdiccion: string;
     }
+  | { tipo: "sin_consentimiento" }
   | { tipo: "peticion_inexistente" }
   | { tipo: "peticion_cerrada" }
   | { tipo: "error" };
@@ -45,7 +46,8 @@ export function validarDatosFirma(
   const errorCurp = validarCurp(curp);
   if (errorCurp) errores.curp = mensajeErrorCurp[errorCurp];
   if (!CLAVE_ELECTOR.test(claveElector)) {
-    errores.claveElector = "La clave de elector debe tener 18 caracteres.";
+    errores.claveElector =
+      "La clave de elector tiene 18 caracteres: 6 letras, 8 números, H o M y 3 números.";
   }
   if (!/^\d{1,4}$/.test(seccionTexto) || Number(seccionTexto) === 0) {
     errores.seccion = "La sección tiene hasta 4 dígitos.";

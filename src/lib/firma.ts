@@ -27,7 +27,9 @@ export async function firmarPeticion(
   slug: string,
   datos: DatosFirma,
   db: BaseDeDatos = obtenerDb(),
-): Promise<Exclude<EstadoFirma, { tipo: "inicial" | "invalido" | "error" }>> {
+): Promise<
+  Exclude<EstadoFirma, { tipo: "inicial" | "invalido" | "sin_consentimiento" | "error" }>
+> {
   const [fila] = await db
     .select({
       id: peticiones.id,
@@ -96,7 +98,13 @@ export async function firmarPeticion(
     }
   }
 
-  if (resultado.umbralAlcanzado) await generarEnvio(db, fila.id);
+  // La firma ya quedó registrada: si falla el envío, la persona igual recibe su comprobante.
+  // La siguiente firma lo vuelve a intentar.
+  if (resultado.umbralAlcanzado) {
+    await generarEnvio(db, fila.id).catch(() => {
+      console.error("firmar: no se pudo generar el envío simulado");
+    });
+  }
 
   return {
     tipo: "firmada",

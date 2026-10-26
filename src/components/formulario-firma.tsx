@@ -51,10 +51,19 @@ export function FormularioFirma({ slug, titulo }: Props) {
     irA("credencial");
   }
 
+  // Al descartar un rechazo del servidor, sus errores pasan al estado local.
+  function descartarResultado() {
+    if (resultado?.tipo === "invalido") {
+      setPaso("credencial");
+      setErroresLocales(resultado.errores);
+    }
+    setDescartado(estado);
+  }
+
   function cambiar(campo: CampoFirma, valor: string) {
     setCampos((c) => ({ ...c, [campo]: valor }));
+    descartarResultado();
     setErroresLocales((e) => ({ ...e, [campo]: undefined }));
-    setDescartado(estado);
   }
 
   function leerCredencial() {
@@ -66,8 +75,8 @@ export function FormularioFirma({ slug, titulo }: Props) {
       claveElector: muestra.claveElector,
       seccion: String(muestra.seccion),
     });
+    descartarResultado();
     setErroresLocales({});
-    setDescartado(estado);
   }
 
   function continuarConDatos() {
@@ -86,6 +95,7 @@ export function FormularioFirma({ slug, titulo }: Props) {
         slug={slug}
         alReintentar={() => irA("confirmar")}
         alCambiarCredencial={reiniciar}
+        alVolverAlAviso={() => irA("aviso")}
       />
     );
   }
@@ -213,6 +223,7 @@ export function FormularioFirma({ slug, titulo }: Props) {
               </div>
             ))}
           </dl>
+          <input type="hidden" name="consentimiento" value={consentimiento ? "si" : ""} />
           <p className="text-sm text-muted-foreground">
             Firmas una sola vez. Tu nombre y tu CURP se guardan cifrados y no se publican.
           </p>
@@ -315,11 +326,13 @@ function PantallaResultado({
   slug,
   alReintentar,
   alCambiarCredencial,
+  alVolverAlAviso,
 }: {
   resultado: Exclude<EstadoFirma, { tipo: "inicial" | "invalido" }>;
   slug: string;
   alReintentar: () => void;
   alCambiarCredencial: () => void;
+  alVolverAlAviso: () => void;
 }) {
   const verPeticion = (
     <EnlaceBoton href={`/peticion/${slug}`} variant="outline">
@@ -360,6 +373,15 @@ function PantallaResultado({
             </EnlaceBoton>
             {verPeticion}
           </div>
+        </Resultado>
+      );
+    case "sin_consentimiento":
+      return (
+        <Resultado titulo="Falta tu consentimiento">
+          <p>Sin tu consentimiento expreso no podemos registrar tu firma. No guardamos tus datos.</p>
+          <Button size="lg" className="w-full sm:w-auto" onClick={alVolverAlAviso}>
+            Leer el aviso de privacidad
+          </Button>
         </Resultado>
       );
     case "peticion_cerrada":
