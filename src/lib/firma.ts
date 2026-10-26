@@ -20,7 +20,7 @@ function llaves() {
 
 /**
  * Registra la firma de una persona ya validada en la petición `slug`.
- * Si la sección no es elegible, no escribe nada en la base.
+ * Si la petición no está abierta o la sección no es elegible, no escribe nada en la base.
  * Si la firma lleva la petición a su umbral, crea el envío simulado en estado "generado".
  */
 export async function firmarPeticion(
@@ -41,8 +41,14 @@ export async function firmarPeticion(
     .innerJoin(jurisdicciones, eq(jurisdicciones.id, peticiones.jurisdiccionId))
     .where(eq(peticiones.slug, slug));
   if (!fila) return { tipo: "peticion_inexistente" };
-  if (fila.estado !== "abierta" && fila.estado !== "umbral_alcanzado") {
-    return { tipo: "peticion_cerrada" };
+  const { hmac, cifrado } = llaves();
+  const seudonimo = curpHmac(datos.curp, hmac);
+
+  // Tras el umbral, quien ya firmó sigue viendo su comprobante; nadie más puede firmar.
+  if (fila.estado !== "abierta") {
+    const previa = await firmaPrevia(db, fila.id, seudonimo);
+    if (previa !== null) return { tipo: "ya_firmo", idComprobante: idComprobante(slug, previa) };
+    return { tipo: "peticion_cerrada", estado: fila.estado };
   }
 
   const elegibilidad = await seccionEsElegible(datos, fila.jurisdiccionId, db);
@@ -54,9 +60,6 @@ export async function firmarPeticion(
       jurisdiccion: fila.jurisdiccion,
     };
   }
-
-  const { hmac, cifrado } = llaves();
-  const seudonimo = curpHmac(datos.curp, hmac);
 
   // Si ya firmó, no cambia nada de la persona.
   const previa = await firmaPrevia(db, fila.id, seudonimo);
@@ -92,7 +95,7 @@ export async function firmarPeticion(
         return { tipo: "ya_firmo", idComprobante: idComprobante(slug, secuencia ?? 1) };
       }
       case "peticion_cerrada":
-        return { tipo: "peticion_cerrada" };
+        return { tipo: "peticion_cerrada", estado: resultado.estado };
       default:
         return { tipo: "peticion_inexistente" };
     }

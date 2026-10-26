@@ -2,16 +2,24 @@
 
 import Image from "next/image";
 import { useActionState, useId, useState, type ReactNode } from "react";
+import { CircleAlert, CircleCheck, ScanLine } from "lucide-react";
 import { firmar } from "@/app/firmar/acciones";
 import { EnlaceBoton } from "@/components/enlace-boton";
 import { Button } from "@/components/ui/button";
 import { validarDatosFirma, type CampoFirma, type EstadoFirma } from "@/lib/datos-firma";
+import { motivoSinFirmas } from "@/lib/estado-peticion";
+import { cn } from "@/lib/utils";
 import muestras from "../../data/fixtures/credenciales-muestra.json";
 
 type Paso = "aviso" | "credencial" | "confirmar";
 type Campos = Record<CampoFirma, string>;
 
 const PASOS: Paso[] = ["aviso", "credencial", "confirmar"];
+const NOMBRES_PASO: Record<Paso, string> = {
+  aviso: "Aviso y consentimiento",
+  credencial: "Credencial",
+  confirmar: "Confirmar y firmar",
+};
 const VACIOS: Campos = { nombre: "", curp: "", claveElector: "", seccion: "" };
 const ESTADO_INICIAL: EstadoFirma = { tipo: "inicial" };
 
@@ -102,20 +110,21 @@ export function FormularioFirma({ slug, titulo }: Props) {
 
   return (
     <div className="space-y-6">
-      <p className="text-sm text-muted-foreground">
-        Paso {PASOS.indexOf(pasoVisible) + 1} de {PASOS.length} · {titulo}
+      <p className="rounded-lg bg-secondary px-4 py-3 text-sm text-secondary-foreground">
+        <span className="font-semibold">Petición:</span> {titulo}
       </p>
+      <IndicadorPasos actual={pasoVisible} />
 
       {pasoVisible === "aviso" && (
-        <section className="space-y-4" aria-labelledby="titulo-aviso">
+        <section className={tarjeta} aria-labelledby="titulo-aviso">
           <h2 id="titulo-aviso" className="text-xl font-semibold">
             Aviso de privacidad
           </h2>
           <AvisoPrivacidad />
-          <label className="flex items-start gap-3 rounded-lg border p-4">
+          <label className="flex cursor-pointer items-start gap-3 rounded-lg border-2 p-4 has-checked:border-primary has-checked:bg-secondary">
             <input
               type="checkbox"
-              className="mt-1 size-5 shrink-0"
+              className="mt-1 size-5 shrink-0 accent-primary"
               checked={consentimiento}
               onChange={(e) => setConsentimiento(e.target.checked)}
             />
@@ -126,7 +135,7 @@ export function FormularioFirma({ slug, titulo }: Props) {
           </label>
           <Button
             size="lg"
-            className="w-full sm:w-auto"
+            className="h-10 w-full px-5 sm:w-auto"
             disabled={!consentimiento}
             onClick={() => irA("credencial")}
           >
@@ -136,11 +145,11 @@ export function FormularioFirma({ slug, titulo }: Props) {
       )}
 
       {pasoVisible === "credencial" && (
-        <section className="space-y-5" aria-labelledby="titulo-credencial">
+        <section className={tarjeta} aria-labelledby="titulo-credencial">
           <h2 id="titulo-credencial" className="text-xl font-semibold">
             Tu credencial para votar
           </h2>
-          <p>
+          <p className="text-muted-foreground">
             En la demo no se usa ninguna credencial real. Elige una credencial de muestra con datos
             ficticios.
           </p>
@@ -149,7 +158,7 @@ export function FormularioFirma({ slug, titulo }: Props) {
             {muestras.credenciales.map((m) => (
               <label
                 key={m.id}
-                className="cursor-pointer space-y-2 rounded-lg border p-3 has-checked:border-primary has-checked:ring-2 has-checked:ring-primary/30"
+                className="cursor-pointer space-y-2 rounded-lg border-2 p-3 transition-colors hover:bg-muted/60 has-checked:border-primary has-checked:bg-secondary"
               >
                 <Image
                   src={m.imagen}
@@ -166,17 +175,19 @@ export function FormularioFirma({ slug, titulo }: Props) {
                     value={m.id}
                     checked={muestraId === m.id}
                     onChange={() => setMuestraId(m.id)}
+                    className="size-4 accent-primary"
                   />
                   {m.etiqueta}
                 </span>
               </label>
             ))}
           </fieldset>
-          <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
-            <Button variant="secondary" size="lg" onClick={leerCredencial}>
+          <div className="flex flex-col gap-2 rounded-lg border border-dashed border-amber-500 bg-amber-50 p-3 sm:flex-row sm:items-center dark:bg-amber-950/30">
+            <Button variant="outline" size="lg" className="h-10" onClick={leerCredencial}>
+              <ScanLine aria-hidden />
               Leer credencial (simulado)
             </Button>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-amber-950 dark:text-amber-100">
               Lectura simulada: no hay OCR en la demo.
             </p>
           </div>
@@ -195,11 +206,11 @@ export function FormularioFirma({ slug, titulo }: Props) {
             ))}
           </div>
 
-          <div className="flex flex-col-reverse gap-2 sm:flex-row">
-            <Button variant="outline" size="lg" onClick={() => irA("aviso")}>
+          <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
+            <Button variant="outline" size="lg" className="h-10 px-4" onClick={() => irA("aviso")}>
               Atrás
             </Button>
-            <Button size="lg" onClick={continuarConDatos}>
+            <Button size="lg" className="h-10 px-5" onClick={continuarConDatos}>
               Continuar
             </Button>
           </div>
@@ -207,18 +218,20 @@ export function FormularioFirma({ slug, titulo }: Props) {
       )}
 
       {pasoVisible === "confirmar" && (
-        <form action={accion} className="space-y-5" aria-labelledby="titulo-confirmar">
+        <form action={accion} className={tarjeta} aria-labelledby="titulo-confirmar">
           <h2 id="titulo-confirmar" className="text-xl font-semibold">
             Confirma y firma
           </h2>
           <p>
             Revisa tus datos. Al firmar, tu apoyo queda en el registro público con un seudónimo.
           </p>
-          <dl className="grid gap-3 rounded-lg border p-4 text-sm">
+          <dl className="grid gap-3 rounded-lg bg-muted p-4 text-sm sm:grid-cols-2">
             {(Object.keys(ETIQUETAS) as CampoFirma[]).map((campo) => (
               <div key={campo}>
-                <dt className="font-semibold">{ETIQUETAS[campo]}</dt>
-                <dd className="font-mono break-all">{campos[campo].toUpperCase()}</dd>
+                <dt className="text-muted-foreground">{ETIQUETAS[campo]}</dt>
+                <dd className="font-mono text-base font-medium break-all">
+                  {campos[campo].toUpperCase()}
+                </dd>
                 <input type="hidden" name={campo} value={campos[campo]} />
               </div>
             ))}
@@ -227,17 +240,18 @@ export function FormularioFirma({ slug, titulo }: Props) {
           <p className="text-sm text-muted-foreground">
             Firmas una sola vez. Tu nombre y tu CURP se guardan cifrados y no se publican.
           </p>
-          <div className="flex flex-col-reverse gap-2 sm:flex-row">
+          <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
             <Button
               type="button"
               variant="outline"
               size="lg"
+              className="h-10 px-4"
               disabled={pendiente}
               onClick={() => irA("credencial")}
             >
               Corregir datos
             </Button>
-            <Button type="submit" size="lg" disabled={pendiente}>
+            <Button type="submit" size="lg" className="h-10 px-5" disabled={pendiente}>
               {pendiente ? "Firmando…" : "Firmar la petición"}
             </Button>
           </div>
@@ -279,7 +293,7 @@ function Campo({
         spellCheck={false}
         aria-invalid={error ? true : undefined}
         aria-describedby={error ? `${id}-error` : undefined}
-        className="h-10 w-full rounded-lg border border-input bg-background px-3 font-mono uppercase outline-none focus-visible:ring-3 focus-visible:ring-ring/50 aria-invalid:border-destructive"
+        className="h-11 w-full rounded-lg border border-input bg-background px-3 font-mono text-base uppercase outline-none focus-visible:ring-3 focus-visible:ring-ring/50 aria-invalid:border-destructive"
       />
       {error && (
         <p id={`${id}-error`} className="text-sm text-destructive">
@@ -292,7 +306,7 @@ function Campo({
 
 function AvisoPrivacidad() {
   return (
-    <div className="space-y-3 rounded-lg border bg-muted/40 p-4 text-sm leading-relaxed">
+    <div className="max-h-80 space-y-3 overflow-y-auto rounded-lg border bg-muted/50 p-4 text-sm leading-relaxed">
       <p className="font-semibold">Texto provisional para la demo: pendiente de revisión legal.</p>
       <p>
         <strong>Quién es responsable.</strong> Rogatio, proyecto de código abierto, trata tus datos
@@ -343,7 +357,7 @@ function PantallaResultado({
   switch (resultado.tipo) {
     case "fuera_de_jurisdiccion":
       return (
-        <Resultado titulo={`Tu sección no pertenece a ${resultado.jurisdiccion}`}>
+        <Resultado tono="aviso" titulo={`Tu sección no pertenece a ${resultado.jurisdiccion}`}>
           <p>
             {resultado.alcaldiaSeccion
               ? `Tu credencial dice sección ${resultado.seccion}, que es de la alcaldía ${resultado.alcaldiaSeccion}.`
@@ -365,7 +379,7 @@ function PantallaResultado({
       );
     case "ya_firmo":
       return (
-        <Resultado titulo="Ya firmaste esta petición">
+        <Resultado tono="ok" titulo="Ya firmaste esta petición">
           <p>Cada persona firma una sola vez. Tu firma ya está en el registro.</p>
           <div className="flex flex-col gap-2 sm:flex-row">
             <EnlaceBoton href={`/comprobante/${resultado.idComprobante}`}>
@@ -377,7 +391,7 @@ function PantallaResultado({
       );
     case "sin_consentimiento":
       return (
-        <Resultado titulo="Falta tu consentimiento">
+        <Resultado tono="aviso" titulo="Falta tu consentimiento">
           <p>Sin tu consentimiento expreso no podemos registrar tu firma. No guardamos tus datos.</p>
           <Button size="lg" className="w-full sm:w-auto" onClick={alVolverAlAviso}>
             Leer el aviso de privacidad
@@ -386,21 +400,24 @@ function PantallaResultado({
       );
     case "peticion_cerrada":
       return (
-        <Resultado titulo="Esta petición ya no recibe firmas">
-          <p>La petición está cerrada. No registramos tu firma ni guardamos tus datos.</p>
+        <Resultado tono="aviso" titulo={motivoSinFirmas(resultado.estado).titulo}>
+          <p>
+            {motivoSinFirmas(resultado.estado).texto} No registramos tu firma ni guardamos tus
+            datos.
+          </p>
           {verPeticion}
         </Resultado>
       );
     case "peticion_inexistente":
       return (
-        <Resultado titulo="No encontramos la petición">
+        <Resultado tono="aviso" titulo="No encontramos la petición">
           <p>No registramos tu firma ni guardamos tus datos.</p>
           <EnlaceBoton href="/">Volver al inicio</EnlaceBoton>
         </Resultado>
       );
     case "error":
       return (
-        <Resultado titulo="No pudimos registrar tu firma">
+        <Resultado tono="aviso" titulo="No pudimos registrar tu firma">
           <p>Hubo un problema de nuestro lado. Intenta de nuevo en un momento.</p>
           <Button size="lg" className="w-full sm:w-auto" onClick={alReintentar}>
             Intentar de nuevo
@@ -410,7 +427,7 @@ function PantallaResultado({
     case "firmada":
       // La acción redirige al comprobante; esto solo se ve si la redirección falla.
       return (
-        <Resultado titulo="Tu firma quedó registrada">
+        <Resultado tono="ok" titulo="Tu firma quedó registrada">
           <EnlaceBoton href={`/comprobante/${resultado.idComprobante}`}>
             Ver mi comprobante
           </EnlaceBoton>
@@ -425,10 +442,66 @@ function nombreLugar(jurisdiccion: string) {
     : `la alcaldía ${jurisdiccion}`;
 }
 
-function Resultado({ titulo, children }: { titulo: string; children: ReactNode }) {
+const tarjeta = "space-y-5 rounded-xl border bg-card p-5 shadow-xs sm:p-6";
+
+function IndicadorPasos({ actual }: { actual: Paso }) {
+  const indice = PASOS.indexOf(actual);
   return (
-    <section role="status" className="space-y-4" aria-live="polite">
-      <h2 className="text-xl font-semibold">{titulo}</h2>
+    <nav aria-label="Pasos para firmar">
+      <ol className="grid grid-cols-3 gap-2 sm:gap-3">
+        {PASOS.map((paso, i) => (
+          <li key={paso} aria-current={i === indice ? "step" : undefined} className="space-y-2">
+            <div className={cn("h-1.5 rounded-full", i <= indice ? "bg-primary" : "bg-muted")} />
+            <p
+              className={cn(
+                "flex items-center gap-1.5 text-xs sm:text-sm",
+                i === indice ? "font-semibold text-foreground" : "text-muted-foreground",
+              )}
+            >
+              <span
+                aria-hidden
+                className={cn(
+                  "grid size-5 shrink-0 place-items-center rounded-full text-[11px] font-bold",
+                  i <= indice ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground",
+                )}
+              >
+                {i + 1}
+              </span>
+              <span className="sr-only">Paso {i + 1}: </span>
+              {NOMBRES_PASO[paso]}
+            </p>
+          </li>
+        ))}
+      </ol>
+    </nav>
+  );
+}
+
+function Resultado({
+  titulo,
+  tono,
+  children,
+}: {
+  titulo: string;
+  tono: "ok" | "aviso";
+  children: ReactNode;
+}) {
+  const Icono = tono === "ok" ? CircleCheck : CircleAlert;
+  return (
+    <section
+      role="status"
+      aria-live="polite"
+      className={cn(
+        "space-y-4 rounded-xl border-2 p-5 sm:p-6",
+        tono === "ok"
+          ? "border-emerald-600 bg-emerald-50 text-emerald-950 dark:bg-emerald-950/30 dark:text-emerald-100"
+          : "border-amber-500 bg-amber-50 text-amber-950 dark:bg-amber-950/30 dark:text-amber-100",
+      )}
+    >
+      <h2 className="flex items-center gap-2 text-xl font-bold">
+        <Icono aria-hidden className="size-6 shrink-0" />
+        {titulo}
+      </h2>
       {children}
     </section>
   );

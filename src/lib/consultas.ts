@@ -52,6 +52,7 @@ export async function obtenerPeticion(
       autoridad: esDemo ? peticionDemo.peticion.autoridad : jurisdiccion.nombre,
       ubicacion: esDemo ? peticionDemo.peticion.ubicacion : jurisdiccion.nombre,
       creada_en: peticion.creadaEn.toISOString(),
+      estado: peticion.estado,
     },
     conteo: { firmas: total, umbral: peticion.umbral },
     raiz: ultimaRaiz
