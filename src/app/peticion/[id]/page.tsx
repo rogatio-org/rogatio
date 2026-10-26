@@ -5,16 +5,10 @@ import { Suspense } from "react";
 import { ConteoFirmas } from "@/components/conteo-firmas";
 import { DesgloseDistritos } from "@/components/desglose-distritos";
 import { EnlaceBoton } from "@/components/enlace-boton";
+import { AvisoUmbral, EstadoEnvio } from "@/components/estado-umbral";
 import { PorConstruir } from "@/components/por-construir";
 import { obtenerPeticion } from "@/lib/consultas";
 import { obtenerDesglosePorDistrito } from "@/lib/desglose";
-
-const textoEstadoEnvio = {
-  pendiente: "Pendiente: aún no se alcanza el umbral.",
-  generado: "Petición del Art. 8 generada.",
-  enviado_simulado: "Enviada (simulación).",
-  fallido: "No se pudo generar el envío.",
-} as const;
 
 // Sin generateStaticParams: el conteo y la raíz se leen de la base en cada visita, nunca en el build.
 export async function generateMetadata({
@@ -57,6 +51,8 @@ async function ContenidoPeticion({ id }: { id: string }) {
 
       <p className="leading-relaxed">{peticion.texto}</p>
 
+      <AvisoUmbral conteo={conteo} />
+
       <ConteoFirmas conteo={conteo} />
 
       <EnlaceBoton href="/firmar" className="w-full sm:w-auto">
@@ -74,7 +70,9 @@ async function ContenidoPeticion({ id }: { id: string }) {
         </div>
         <div>
           <dt className="font-semibold">Estado del envío</dt>
-          <dd>{textoEstadoEnvio[envio.estado]}</dd>
+          <dd>
+            <EstadoEnvio envio={envio} conteo={conteo} />
+          </dd>
         </div>
       </dl>
 
