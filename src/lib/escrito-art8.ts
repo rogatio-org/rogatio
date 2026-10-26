@@ -30,7 +30,7 @@ export const PLANTILLA_ESCRITO: SeccionPlantilla[] = [
     plantilla:
       "1. {hechos}\n" +
       "2. {numero_firmantes} personas con domicilio en la alcaldía {alcaldia} firmaron esta " +
-      "petición en Rogatio entre el {fecha_inicio} y el {fecha}. Cada firma tiene un comprobante " +
+      "petición en Rogatio {periodo_firmas}. Cada firma tiene un comprobante " +
       "público que se puede verificar en {url_verificacion}. La raíz del registro de las " +
       "{numero_firmantes} firmas es {raiz_registro}.",
   },
@@ -62,7 +62,7 @@ export const CAMPOS = [
   "correo_notificaciones",
   "hechos",
   "alcaldia",
-  "fecha_inicio",
+  "periodo_firmas",
   "fecha",
   "url_verificacion",
   "raiz_registro",
@@ -175,6 +175,12 @@ export function formatearFecha(fecha: Date | string): string {
   return formatoFecha.format(new Date(fecha));
 }
 
+/** "el 26 de octubre de 2026" o "entre el 24 de octubre de 2026 y el 26 de octubre de 2026". */
+export function periodoDeFirmas(inicio: Date | string, fin: Date | string): string {
+  const [desde, hasta] = [formatearFecha(inicio), formatearFecha(fin)];
+  return desde === hasta ? `el ${hasta}` : `entre el ${desde} y el ${hasta}`;
+}
+
 /** Umbral alcanzado: solo entonces existe el escrito. */
 export function escritoDisponible({ firmas, umbral }: PeticionDemo["conteo"]): boolean {
   return firmas >= umbral;
@@ -203,7 +209,7 @@ export function camposDesdePeticion({
     correo_notificaciones: escrito.correo_notificaciones,
     hechos: escrito.hechos,
     alcaldia,
-    fecha_inicio: formatearFecha(peticion.peticion.creada_en),
+    periodo_firmas: periodoDeFirmas(peticion.peticion.creada_en, fecha),
     fecha: formatearFecha(fecha),
     url_verificacion: urlVerificacion,
     raiz_registro: peticion.raiz.hash,

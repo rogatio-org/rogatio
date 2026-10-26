@@ -8,6 +8,7 @@ import {
   escritoDisponible,
   firmantesFicticios,
   formatearFecha,
+  periodoDeFirmas,
   fundamentoDe,
   llenarEscrito,
   puntosPetitorios,
@@ -104,6 +105,12 @@ describe("escrito del Art. 8", () => {
       "Concejo de la Alcaldía Cuauhtémoc; " +
         "Diputación del Distrito local 9 de la Ciudad de México, Congreso de la Ciudad de México (24 de 50 personas firmantes); " +
         "Diputación del Distrito local 12 de la Ciudad de México, Congreso de la Ciudad de México (26 de 50 personas firmantes)",
+    );
+  });
+
+  it("describe el periodo de firmas", () => {
+    expect(periodoDeFirmas("2026-10-26T15:00:00Z", "2026-10-26T20:00:00Z")).toBe(
+      "el 26 de octubre de 2026",
     );
   });
 
