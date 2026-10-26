@@ -1,4 +1,5 @@
 import datos from "../../data/fixtures/peticion-demo.json";
+import type { EstadoPeticion } from "./estado-peticion";
 
 // Contrato de datos de la petición. La página la lee de la base con obtenerPeticion (src/lib/consultas.ts).
 
@@ -15,6 +16,8 @@ export type PeticionDemo = {
     autoridad: string;
     ubicacion: string;
     creada_en: string;
+    // Solo viene de la base; el fixture no lo trae.
+    estado?: EstadoPeticion;
   };
   conteo: { firmas: number; umbral: number };
   raiz: { hash: string; tamano_arbol: number; publicada_en: string };

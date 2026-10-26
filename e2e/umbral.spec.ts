@@ -28,6 +28,9 @@ test("la firma 50 alcanza el umbral y genera el escrito simulado", async ({
     page.getByRole("heading", { name: "Umbral alcanzado" }),
   ).toBeVisible();
   await expect(page.getByText("Escrito del Art. 8 generado.")).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: "Firmar esta petición" }),
+  ).toHaveCount(0);
 
   await page.getByRole("link", { name: "Ver escrito del Art. 8" }).click();
   await expect(

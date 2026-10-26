@@ -25,15 +25,18 @@ test("firmar lleva al comprobante con secuencia, hoja y raíz", async ({
   await expect(page.getByText("Raíz del registro")).toBeVisible();
 });
 
-test("firmar dos veces con la misma CURP no suma otra firma", async ({
+// La firma 50 cierra la petición: /firmar ya no muestra el formulario.
+// Que la misma CURP no firme dos veces lo prueba src/lib/firma.test.ts.
+test("tras la firma 50, /firmar muestra que la petición ya no recibe firmas", async ({
   page,
 }) => {
   await firmarConMuestra(page);
   await expect(page).toHaveURL(/\/comprobante\//);
 
-  await firmarConMuestra(page);
+  await page.goto("/firmar");
   await expect(
-    page.getByRole("heading", { name: "Ya firmaste esta petición" }),
+    page.getByRole("heading", { name: "Esta petición ya alcanzó su umbral" }),
   ).toBeVisible();
+  await expect(page.getByRole("checkbox")).toHaveCount(0);
   expect(await conteoActual(page)).toBe("50");
 });

@@ -1,5 +1,6 @@
 // Campos del formulario de firma y estados de la acción. Isomórfico: lo usan /firmar y la acción.
 import { mensajeErrorCurp, normalizarCurp, validarCurp } from "./curp";
+import type { EstadoPeticion } from "./estado-peticion";
 
 export type DatosFirma = {
   nombre: string;
@@ -24,7 +25,7 @@ export type EstadoFirma =
     }
   | { tipo: "sin_consentimiento" }
   | { tipo: "peticion_inexistente" }
-  | { tipo: "peticion_cerrada" }
+  | { tipo: "peticion_cerrada"; estado: EstadoPeticion }
   | { tipo: "error" };
 
 // La clave de elector no se guarda: solo se revisa su forma.

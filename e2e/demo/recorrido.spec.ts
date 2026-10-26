@@ -1,12 +1,13 @@
 import { execSync } from "node:child_process";
 import { mkdirSync } from "node:fs";
-import { expect, test, type Page } from "@playwright/test";
+import { expect, test, type Locator, type Page } from "@playwright/test";
 
 // Tiempos de cada escena en milisegundos. `comunicacion` ajusta aquí el ritmo del video.
 const PAUSAS = {
-  inicio: 3500,
+  inicio: 3000,
   peticion: 3000,
-  desglose: 3500,
+  desglose: 2500,
+  mapa: 4500,
   aviso: 3000,
   credencial: 2500,
   datosLeidos: 3000,
@@ -16,7 +17,7 @@ const PAUSAS = {
   verificado: 4500,
   umbral: 5000,
   escrito: 3000,
-  marca: 5500,
+  marca: 4500,
 } as const;
 
 type Escena = keyof typeof PAUSAS;
@@ -35,6 +36,14 @@ async function captura(page: Page, nombre: string) {
 async function desplazar(page: Page, y: number) {
   await page.evaluate((top) => window.scrollTo({ top, behavior: "smooth" }), y);
   await page.waitForTimeout(800);
+}
+
+// Lleva el elemento arriba de la ventana, debajo de la franja DEMO y el encabezado.
+async function desplazarA(page: Page, elemento: Locator) {
+  const y = await elemento.evaluate(
+    (el) => el.getBoundingClientRect().top + window.scrollY - 110,
+  );
+  await desplazar(page, y);
 }
 
 // Si una pantalla aún no existe, la escena se salta con un aviso.
@@ -62,7 +71,7 @@ test("recorrido de la demo", async ({ page }) => {
   await pausa(page, "inicio");
   await captura(page, "01-inicio");
 
-  // 2. Petición con 49 de 50 y desglose por distrito.
+  // 2. Petición con 49 de 50, desglose por distrito y mapa por sección.
   await page.getByRole("link", { name: "Ver la petición de ejemplo" }).click();
   await expect(page.getByRole("progressbar")).toHaveAttribute(
     "aria-valuenow",
@@ -70,19 +79,26 @@ test("recorrido de la demo", async ({ page }) => {
   );
   await pausa(page, "peticion");
   await captura(page, "02-peticion");
-  const desglose = page.getByText(/Distrito/).first();
+  const desglose = page.getByRole("heading", { name: "Firmas por distrito" });
   if (await desglose.count()) {
-    await desglose.scrollIntoViewIfNeeded();
-    await desplazar(
-      page,
-      await page.evaluate(() => document.body.scrollHeight),
-    );
+    await desplazarA(page, desglose);
     await pausa(page, "desglose");
     await captura(page, "03-desglose");
-    await desplazar(page, 0);
   } else {
     console.warn("Aviso: no hay desglose por distrito; se salta la escena.");
   }
+  const mapa = page.getByRole("region", { name: "Mapa de firmas por sección" });
+  if (await mapa.count()) {
+    // El cursor fuera del mapa: así no aparece la etiqueta de una sección.
+    await page.mouse.move(1200, 700);
+    await desplazarA(page, mapa);
+    await expect(mapa.locator("path.leaflet-interactive").first()).toBeVisible();
+    await pausa(page, "mapa");
+    await captura(page, "03-mapa");
+  } else {
+    console.warn("Aviso: no hay mapa por sección; se salta la escena.");
+  }
+  await desplazar(page, 0);
 
   // 3. Firmar con la credencial de muestra.
   await page.getByRole("link", { name: "Firmar esta petición" }).click();

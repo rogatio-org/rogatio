@@ -1,7 +1,16 @@
 "use client";
 
 import Link from "next/link";
-import { useId, useState, type ChangeEvent, type FormEvent, type ReactNode } from "react";
+import {
+  useEffect,
+  useId,
+  useRef,
+  useState,
+  type ChangeEvent,
+  type FormEvent,
+  type ReactNode,
+} from "react";
+import { CircleCheck, CircleX, Lock, TriangleAlert } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { verificarTexto, type ResultadoVerificacion } from "@/lib/verificacion";
 import { cn } from "@/lib/utils";
@@ -40,7 +49,7 @@ export function VerificadorComprobante() {
 
   return (
     <div className="space-y-6">
-      <form onSubmit={verificar} className="space-y-4">
+      <form onSubmit={verificar} className="space-y-5 rounded-xl border bg-card p-5 shadow-xs sm:p-6">
         <div className="space-y-2">
           <label htmlFor={`${id}-archivo`} className="block font-semibold">
             Sube tu comprobante (.json)
@@ -50,7 +59,7 @@ export function VerificadorComprobante() {
             type="file"
             accept="application/json,.json"
             onChange={cargarArchivo}
-            className="block w-full text-sm file:mr-3 file:rounded-lg file:border file:bg-muted file:px-3 file:py-1.5"
+            className="block w-full rounded-lg border border-dashed border-input p-3 text-sm file:mr-3 file:rounded-md file:border-0 file:bg-secondary file:px-3 file:py-1.5 file:font-medium file:text-secondary-foreground"
           />
         </div>
         <div className="space-y-2">
@@ -64,7 +73,7 @@ export function VerificadorComprobante() {
               setTexto(e.target.value);
               setResultado(null);
             }}
-            rows={8}
+            rows={6}
             spellCheck={false}
             className={campo}
           />
@@ -93,7 +102,7 @@ export function VerificadorComprobante() {
           type="submit"
           size="lg"
           disabled={!texto.trim() || verificando}
-          className="w-full sm:w-auto"
+          className="h-11 w-full px-6 text-base sm:w-auto"
         >
           Verificar
         </Button>
@@ -101,7 +110,8 @@ export function VerificadorComprobante() {
 
       {resultado && <Resultado resultado={resultado} />}
 
-      <p className="text-sm text-muted-foreground">
+      <p className="flex items-center gap-2 text-sm text-muted-foreground">
+        <Lock aria-hidden className="size-4 shrink-0" />
         La verificación ocurre en tu navegador. No se envía nada a Rogatio.
       </p>
     </div>
@@ -148,9 +158,21 @@ function Resultado({ resultado }: { resultado: ResultadoVerificacion }) {
 }
 
 const tonos = {
-  valido: "border-green-600 bg-green-50 text-green-950 dark:bg-green-950/30 dark:text-green-100",
-  no_valido: "border-red-600 bg-red-50 text-red-950 dark:bg-red-950/30 dark:text-red-100",
-  error: "border-amber-500 bg-amber-50 text-amber-950 dark:bg-amber-950/30 dark:text-amber-100",
+  valido: {
+    clase: "border-emerald-600 bg-emerald-50 text-emerald-950 dark:bg-emerald-950/30 dark:text-emerald-100",
+    icono: CircleCheck,
+    color: "text-emerald-700",
+  },
+  no_valido: {
+    clase: "border-red-600 bg-red-50 text-red-950 dark:bg-red-950/30 dark:text-red-100",
+    icono: CircleX,
+    color: "text-red-700",
+  },
+  error: {
+    clase: "border-amber-500 bg-amber-50 text-amber-950 dark:bg-amber-950/30 dark:text-amber-100",
+    icono: TriangleAlert,
+    color: "text-amber-700",
+  },
 } as const;
 
 function Aviso({
@@ -162,10 +184,18 @@ function Aviso({
   titulo: string;
   children: ReactNode;
 }) {
+  const { clase, icono: Icono, color } = tonos[tono];
+  const ref = useRef<HTMLElement>(null);
+  useEffect(() => {
+    ref.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }, []);
   return (
-    <section role="status" className={cn("rounded-lg border-2 p-4", tonos[tono])}>
-      <h2 className="text-lg font-bold">{titulo}</h2>
-      <p className="mt-1 text-sm">{children}</p>
+    <section ref={ref} role="status" className={cn("flex gap-4 rounded-xl border-2 p-5 sm:p-6", clase)}>
+      <Icono aria-hidden className={cn("size-10 shrink-0", color)} />
+      <div>
+        <h2 className="text-2xl font-bold">{titulo}</h2>
+        <p className="mt-1">{children}</p>
+      </div>
     </section>
   );
 }

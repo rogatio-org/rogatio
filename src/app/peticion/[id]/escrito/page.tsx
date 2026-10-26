@@ -73,10 +73,10 @@ async function ContenidoEscrito({ id }: { id: string }) {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="mx-auto max-w-3xl space-y-6">
       <div className="space-y-3 print:hidden">
-        <h1 className="text-2xl font-bold">Escrito de petición del Art. 8</h1>
-        <p className="text-sm text-muted-foreground">
+        <h1 className="text-3xl font-bold tracking-tight">Escrito de petición del Art. 8</h1>
+        <p className="rounded-lg border border-amber-500 bg-amber-50 p-3 text-sm text-amber-950 dark:bg-amber-950/30 dark:text-amber-100">
           Simulación: Rogatio no envía este escrito. Los datos de quien firma como representante
           común y los nombres del anexo son ficticios.
           {ESTADO_PLANTILLA === "provisional" &&
@@ -104,8 +104,8 @@ function Aviso({
   children: ReactNode;
 }) {
   return (
-    <section className="space-y-4">
-      <h1 className="text-2xl font-bold">{titulo}</h1>
+    <section className="mx-auto max-w-2xl space-y-4">
+      <h1 className="text-3xl font-bold tracking-tight">{titulo}</h1>
       <p className="leading-relaxed">{children}</p>
       <EnlaceBoton href={volver} variant="outline">
         Volver a la petición

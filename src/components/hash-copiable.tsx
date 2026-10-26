@@ -19,7 +19,7 @@ export function HashCopiable({ hash, etiqueta }: { hash: string; etiqueta: strin
 
   return (
     <span className="inline-flex items-center gap-2">
-      <code className="font-mono" title={hash}>
+      <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-sm" title={hash}>
         {hash.slice(0, 8)}…
       </code>
       <Button variant="outline" size="xs" onClick={copiar} aria-label={`Copiar ${etiqueta}`}>

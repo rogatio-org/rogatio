@@ -1,5 +1,6 @@
 "use client";
 
+import { Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { Comprobante } from "@/lib/comprobante";
 
@@ -17,7 +18,8 @@ export function DescargarComprobante({ comprobante }: { comprobante: Comprobante
   }
 
   return (
-    <Button size="lg" onClick={descargar} className="w-full sm:w-auto">
+    <Button size="lg" onClick={descargar} className="h-11 w-full px-5 text-base sm:w-auto">
+      <Download aria-hidden />
       Descargar comprobante
     </Button>
   );

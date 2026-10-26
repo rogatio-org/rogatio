@@ -1,4 +1,5 @@
 import { CircleCheck } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 import type { EstadoEnvio as Estado, PeticionDemo } from "@/lib/peticion-demo";
 
 export function umbralAlcanzado({ firmas, umbral }: PeticionDemo["conteo"]) {
@@ -11,14 +12,14 @@ export function AvisoUmbral({ conteo }: { conteo: PeticionDemo["conteo"] }) {
   return (
     <section
       role="status"
-      className="flex gap-3 rounded-lg border border-emerald-600 bg-emerald-50 p-4 text-emerald-950 dark:bg-emerald-950/30 dark:text-emerald-100"
+      className="flex gap-3 rounded-xl border-2 border-emerald-600 bg-emerald-50 p-4 text-emerald-950 sm:p-5 dark:bg-emerald-950/30 dark:text-emerald-100"
     >
-      <CircleCheck aria-hidden className="mt-0.5 size-5 shrink-0" />
+      <CircleCheck aria-hidden className="mt-0.5 size-6 shrink-0 text-emerald-700" />
       <div className="space-y-1">
-        <h2 className="font-semibold">Umbral alcanzado</h2>
-        <p className="text-sm">
-          La petición juntó {conteo.firmas} de {conteo.umbral} firmas verificadas. El
-          siguiente paso es el escrito del Art. 8 para la autoridad (simulado).
+        <h2 className="text-lg font-bold">Umbral alcanzado</h2>
+        <p>
+          La petición juntó {conteo.firmas} de {conteo.umbral} firmas verificadas y ya no recibe
+          más. El siguiente paso es el escrito del Art. 8 para la autoridad (simulado).
         </p>
       </div>
     </section>
@@ -46,10 +47,13 @@ export function EstadoEnvio({
       : textoEstado[envio.estado];
   return (
     <span className="flex flex-wrap items-center gap-2">
-      <span>{texto}</span>
-      <span className="rounded-full border border-amber-500 px-2 py-0.5 text-xs font-semibold text-amber-800 dark:text-amber-200">
+      <span className="font-medium">{texto}</span>
+      <Badge
+        variant="outline"
+        className="border-amber-500 bg-amber-50 text-amber-900 dark:bg-transparent dark:text-amber-200"
+      >
         Simulación: nada se envía de verdad
-      </span>
+      </Badge>
     </span>
   );
 }
