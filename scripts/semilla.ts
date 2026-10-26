@@ -1,6 +1,5 @@
 // Semilla y reinicio de la demo (2026-10-26). Idempotente. Solo datos ficticios.
 // Carga las secciones electorales de Cuauhtémoc y unas de Benito Juárez (data/ine) con sus distritos.
-import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { and, eq, gt } from "drizzle-orm";
 import { cerrarDb, obtenerDb } from "../src/db";
@@ -15,6 +14,9 @@ import {
 } from "../src/db/esquema";
 import { cifrar } from "../src/db/cifrado";
 import { curpHmac } from "../src/db/seudonimo";
+import { hojaDeFirma } from "../src/lib/comprobante";
+import { aHex } from "../src/lib/merkle";
+import { guardarRaiz } from "../src/lib/registro";
 import demo from "../data/fixtures/peticion-demo.json";
 
 try {
@@ -39,14 +41,6 @@ const llaveHmac = requerida("ROGATIO_LLAVE_HMAC");
 const llaveCifrado = Buffer.from(requerida("ROGATIO_LLAVE_CIFRADO"), "hex");
 if (llaveCifrado.length !== 32) {
   throw new Error("ROGATIO_LLAVE_CIFRADO debe ser 32 bytes en hex (64 caracteres)");
-}
-
-// Por construir en la mesa: formato definitivo de la hoja (RFC 6962). Esto es un marcador.
-function hojaMarcador(peticionId: number, hmac: string, secuencia: number): Buffer {
-  return createHash("sha256")
-    .update(Buffer.from([0]))
-    .update(`${peticionId}:${hmac}:${secuencia}`)
-    .digest();
 }
 
 const db = obtenerDb();
@@ -215,19 +209,21 @@ async function principal() {
       .from(personas)
       .where(eq(personas.curpHmac, hmac));
 
+    const hoja = Buffer.from(await hojaDeFirma({ slug: SLUG, secuencia: i, curpHmac: hmac }));
     await db
       .insert(firmas)
-      .values({
-        peticionId: peticion.id,
-        personaId: persona.id,
-        secuencia: i,
-        hoja: hojaMarcador(peticion.id, hmac, i),
-      })
-      .onConflictDoNothing();
+      .values({ peticionId: peticion.id, personaId: persona.id, secuencia: i, hoja })
+      .onConflictDoUpdate({
+        target: [firmas.peticionId, firmas.secuencia],
+        set: { personaId: persona.id, hoja },
+      });
   }
 
+  // Raíz publicada de las 49 firmas: la misma en cada corrida.
+  const { raiz } = await guardarRaiz(db, peticion.id);
+
   console.log(
-    `Semilla lista: petición ${peticion.id}, ${FIRMAS_PRECARGADAS} de ${UMBRAL} firmas.`,
+    `Semilla lista: petición ${peticion.id}, ${FIRMAS_PRECARGADAS} de ${UMBRAL} firmas, raíz ${aHex(raiz)}.`,
   );
 }
 
