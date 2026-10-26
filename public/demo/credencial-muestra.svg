@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 856 540" width="856" height="540" role="img" aria-label="Credencial de muestra con datos ficticios: ANA MUESTRA FICTICIA, sección 4523">
+  <title>Credencial de muestra. Datos ficticios. No es una credencial real.</title>
+  <defs>
+    <linearGradient id="fondo" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f4ecf7"/>
+      <stop offset="0.5" stop-color="#e8f1f8"/>
+      <stop offset="1" stop-color="#f7efe6"/>
+    </linearGradient>
+    <pattern id="guilloche" width="24" height="24" patternUnits="userSpaceOnUse">
+      <path d="M0 12 Q6 0 12 12 T24 12" fill="none" stroke="#c9b6d6" stroke-width="0.8"/>
+    </pattern>
+  </defs>
+  <rect x="2" y="2" width="852" height="536" rx="28" fill="url(#fondo)" stroke="#8a6d9c" stroke-width="3"/>
+  <rect x="2" y="2" width="852" height="536" rx="28" fill="url(#guilloche)" opacity="0.5"/>
+  <rect x="2" y="2" width="852" height="70" rx="28" fill="#7a4f8f"/>
+  <rect x="2" y="44" width="852" height="28" fill="#7a4f8f"/>
+  <g font-family="Helvetica, Arial, sans-serif" fill="#ffffff">
+    <text x="40" y="34" font-size="20" font-weight="700">MÉXICO</text>
+    <text x="40" y="60" font-size="16">CREDENCIAL PARA VOTAR · MUESTRA</text>
+    <text x="816" y="34" font-size="15" text-anchor="end">Modelo G (ilustración)</text>
+    <text x="816" y="60" font-size="15" text-anchor="end">Sin validez oficial</text>
+  </g>
+  <rect x="40" y="96" width="190" height="240" rx="10" fill="#d9d4de" stroke="#8a6d9c"/>
+  <circle cx="135" cy="185" r="50" fill="#a59bb0"/>
+  <path d="M55 336 Q60 250 135 248 Q210 250 215 336 Z" fill="#a59bb0"/>
+  <text x="135" y="326" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#4a3f55" text-anchor="middle">SILUETA GENÉRICA</text>
+  <g font-family="Helvetica, Arial, sans-serif" fill="#2b2233">
+    <text x="260" y="110" font-size="13" fill="#6a5a78">NOMBRE</text>
+    <text x="260" y="134" font-size="22" font-weight="700">MUESTRA</text>
+    <text x="260" y="160" font-size="22" font-weight="700">FICTICIA</text>
+    <text x="260" y="186" font-size="22" font-weight="700">ANA</text>
+    <text x="620" y="110" font-size="13" fill="#6a5a78">SEXO</text>
+    <text x="620" y="134" font-size="20" font-weight="700">M</text>
+    <text x="260" y="218" font-size="13" fill="#6a5a78">DOMICILIO</text>
+    <text x="260" y="240" font-size="16">C. EJEMPLO 123 COL. EJEMPLO CENTRO</text>
+    <text x="260" y="260" font-size="16">CUAUHTÉMOC, CDMX (FICTICIO)</text>
+    <text x="260" y="292" font-size="13" fill="#6a5a78">CLAVE DE ELECTOR</text>
+    <text x="260" y="314" font-size="19" font-weight="700" font-family="Menlo, monospace">MSFCAN00010109M100</text>
+    <text x="260" y="346" font-size="13" fill="#6a5a78">CURP</text>
+    <text x="260" y="368" font-size="19" font-weight="700" font-family="Menlo, monospace">MUFA000101MDFSCNA8</text>
+    <text x="620" y="346" font-size="13" fill="#6a5a78">AÑO DE REGISTRO</text>
+    <text x="620" y="368" font-size="19" font-weight="700">2018 01</text>
+    <text x="260" y="400" font-size="13" fill="#6a5a78">FECHA DE NACIMIENTO</text>
+    <text x="260" y="422" font-size="19" font-weight="700">01/01/2000</text>
+    <text x="470" y="400" font-size="13" fill="#6a5a78">SECCIÓN</text>
+    <text x="470" y="422" font-size="19" font-weight="700">4523</text>
+    <text x="620" y="400" font-size="13" fill="#6a5a78">VIGENCIA</text>
+    <text x="620" y="422" font-size="19" font-weight="700">2024-2034</text>
+    <text x="40" y="370" font-size="12" fill="#6a5a78">Sin escudo, hologramas</text>
+    <text x="40" y="386" font-size="12" fill="#6a5a78">ni códigos reales.</text>
+  </g>
+  <g transform="rotate(-16 428 270)" font-family="Helvetica, Arial, sans-serif" text-anchor="middle">
+    <text x="428" y="290" font-size="104" font-weight="900" fill="#d11a2a" fill-opacity="0.28" stroke="#d11a2a" stroke-opacity="0.55" stroke-width="2">MUESTRA</text>
+    <text x="428" y="340" font-size="30" font-weight="800" fill="#d11a2a" fill-opacity="0.6">DATOS FICTICIOS</text>
+  </g>
+  <rect x="2" y="470" width="852" height="68" fill="#d11a2a" fill-opacity="0.9"/>
+  <rect x="2" y="510" width="852" height="28" rx="28" fill="#d11a2a" fill-opacity="0.9"/>
+  <text x="428" y="512" font-family="Helvetica, Arial, sans-serif" font-size="26" font-weight="800" fill="#ffffff" text-anchor="middle">MUESTRA – DATOS FICTICIOS · DEMO ROGATIO</text>
+</svg>
