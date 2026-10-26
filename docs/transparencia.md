@@ -91,6 +91,14 @@ Propuestas:
 - Rogatio publica pruebas de consistencia entre raíces sucesivas, como prevé RFC 6962. Una prueba de consistencia demuestra que la raíz nueva contiene todas las hojas de la anterior.
 - El anclaje en OpenTimestamps es obligatorio para toda petición que llegue a su umbral.
 
+Estado del anclaje:
+
+- Cada raíz nueva se envía a los calendarios de OpenTimestamps al registrar la firma.
+- La prueba (`.ots`) se descarga en `/peticion/<slug>/ots/<tamaño>`. El digest es la raíz.
+- `npm run db:anclar` sella las raíces sin prueba y agrega el bloque de Bitcoin a las pendientes. Debe correr cada hora.
+- `/verificar` revisa el `.ots` en el navegador contra la raíz del comprobante y el bloque de Bitcoin.
+- Con el cliente oficial: `ots verify -d <raíz> archivo.ots`.
+
 ### 2.3 Conteos
 
 El conteo de una petición es el tamaño de su árbol. No es un número que alguien escriba a mano. Cualquiera puede comparar el conteo de la página con el tamaño de la raíz publicada.

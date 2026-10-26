@@ -26,6 +26,7 @@ npm run build        # build de producción (no debe conectarse a Postgres)
 npm run db:generate  # genera migraciones con drizzle-kit
 npm run db:migrate   # aplica migraciones
 npm run db:seed      # carga datos de la demo
+npm run db:anclar    # sella raíces en OpenTimestamps y actualiza las pendientes
 ```
 
 CI (`.github/workflows/ci.yml`) corre lint, typecheck, test y build en cada PR.

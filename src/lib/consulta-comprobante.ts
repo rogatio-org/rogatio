@@ -12,6 +12,8 @@ export type ComprobanteConContexto = {
   tituloPeticion: string;
   firmadaEn: string;
   raizPublicadaEn: string;
+  // Bloque de Bitcoin que ancla la raíz; null si la prueba de OpenTimestamps está pendiente.
+  bloqueBitcoin: number | null;
 };
 
 /**
@@ -59,5 +61,6 @@ export async function obtenerComprobante(
     tituloPeticion: peticion.titulo,
     firmadaEn: firma.creadaEn.toISOString(),
     raizPublicadaEn: raizDeSuMomento.creadaEn.toISOString(),
+    bloqueBitcoin: raizDeSuMomento.bloqueBitcoin,
   };
 }
